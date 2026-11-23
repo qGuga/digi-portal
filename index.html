@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digi-Portal • Patch Notes & Progressão</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- CENÁRIO 0: INTRO (PORTAL DIGITAL) -->
+  <div class="camada-visual cenario-intro" id="cenario-0">
+    <svg class="arte-svg" viewBox="0 0 500 500" fill="none">
+      <g class="girar-horario">
+        <circle cx="250" cy="250" r="230" stroke="#00e5ff" stroke-width="1.5" stroke-dasharray="18 8 4 8" opacity="0.6"/>
+        <circle cx="250" cy="250" r="215" stroke="#ff9800" stroke-width="1" stroke-dasharray="40 15" opacity="0.5"/>
+      </g>
+      <g class="girar-anti">
+        <polygon points="250,70 405,160 405,340 250,430 95,340 95,160" stroke="#00e5ff" stroke-width="1.2" opacity="0.45"/>
+      </g>
+      <g class="pulsar">
+        <circle cx="250" cy="250" r="55" stroke="#ff9800" stroke-width="2" opacity="0.8"/>
+        <polygon points="250,175 266,234 325,250 266,266 250,325 234,266 175,250 234,234" stroke="#00e5ff" stroke-width="2" fill="rgba(0, 229, 255, 0.1)"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- CENÁRIO 1: PROGRESSÃO (DNA DIGITAL) -->
+  <div class="camada-visual cenario-progressao" id="cenario-1">
+    <svg class="arte-svg" viewBox="0 0 500 500" fill="none">
+      <g class="girar-anti"><circle cx="250" cy="250" r="220" stroke="#38bdf8" stroke-width="1" stroke-dasharray="6 12" opacity="0.4"/></g>
+      <g class="flutuar-vertical">
+        <path d="M 190 80 Q 310 165, 190 250 T 190 420" stroke="#00e5ff" stroke-width="3" fill="none" opacity="0.8"/>
+        <path d="M 310 80 Q 190 165, 310 250 T 310 420" stroke="#38bdf8" stroke-width="3" stroke-dasharray="8 4" fill="none" opacity="0.8"/>
+        <line x1="210" y1="115" x2="290" y2="115" stroke="#ffffff" stroke-width="1.5" opacity="0.5"/>
+        <line x1="210" y1="215" x2="290" y2="215" stroke="#ffffff" stroke-width="1.5" opacity="0.5"/>
+        <line x1="210" y1="285" x2="290" y2="285" stroke="#ffffff" stroke-width="1.5" opacity="0.5"/>
+        <line x1="210" y1="385" x2="290" y2="385" stroke="#ffffff" stroke-width="1.5" opacity="0.5"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="camada-visual cenario-patch" id="cenario-2">
+    <svg class="arte-svg" viewBox="0 0 500 500" fill="none">
+      <circle cx="250" cy="250" r="160" stroke="#f43f5e" stroke-width="2" class="radar-onda"/>
+      <g class="girar-horario"><circle cx="250" cy="250" r="215" stroke="#f43f5e" stroke-width="2" stroke-dasharray="30 15 5 15" opacity="0.6"/></g>
+      <g class="pulsar">
+        <polygon points="250,115 370,320 130,320" stroke="#f43f5e" stroke-width="3" fill="rgba(244, 63, 94, 0.1)"/>
+        <circle cx="250" cy="250" r="22" stroke="#ffffff" stroke-width="2" fill="#f43f5e" opacity="0.85"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="intro-container" id="topo">
+    <div class="server-badge"><span class="status-dot"></span> Servidor DMO • Patch v3.5.4 Ativo</div>
+    <h1>DIGI-PORTAL & UPDATES</h1>
+    <p style="color: #cbd5e1; max-width: 560px; font-size: 1.1rem; line-height: 1.6;">
+      Roteiros completos de progressão, dicas de farm e registro oficial de atualizações do servidor.
+    </p>
+    <div class="grid-cards">
+      <a href="#progressao" class="card link-suave">
+        <span class="tag-atributo">// ROTEIRO DO TAMER</span>
+        <h3 style="margin: 0 0 8px 0;">📈 Guias de Progressão</h3>
+        <p style="margin: 0; color: #94a3b8; font-size: 0.9rem;">Do nível 1 ao End-Game: equipamentos, selos, acessórios e rotas de farm.</p>
+      </a>
+      <a href="#patch-notes" class="card crimson link-suave">
+        <span class="tag-atributo">// CHANGELOG OFICIAL</span>
+        <h3 style="margin: 0 0 8px 0;">🔥 Patch Notes & Eventos</h3>
+        <p style="margin: 0; color: #94a3b8; font-size: 0.9rem;">Notas de atualização, balanceamentos, novos sistemas e eventos ativos.</p>
+      </a>
+    </div>
+  </div>
+
+  <div id="progressao" class="secao-destino">
+    <span class="tag-atributo">// EVOLUÇÃO DA CONTA</span>
+    <h2>📈 Guias de Progressão</h2>
+    <div class="barra-filtros">
+      <input type="text" id="busca-guia" class="input-busca" placeholder="🔍 Buscar (ex: Super Jumping, Dungeons, Acessórios)...">
+      <button class="aba-btn ativa" data-cat="todos">Todos</button>
+      <button class="aba-btn" data-cat="early">Early Game</button>
+      <button class="aba-btn" data-cat="mid">Mid Game</button>
+      <button class="aba-btn" data-cat="end">End Game</button>
+    </div>
+    <div id="grade-guias" class="grade-itens"></div>
+  </div>
+
+  <div id="patch-notes" class="secao-destino crimson-border">
+    <span class="tag-atributo" style="color: #fb7185;">// REGISTRO DO SISTEMA</span>
+    <h2>🔥 Patch Notes & Atualizações</h2>
+    <div id="grade-patches" class="grade-itens" style="margin-top: 25px;"></div>
+  </div>
+
+  <div id="modal-leitor" class="modal-overlay">
+    <div class="modal-caixa">
+      <button id="fechar-modal" class="btn-fechar">✕ FECHAR</button>
+      <div id="conteudo-modal"></div>
+    </div>
+  </div>
+
+  <a href="#topo" class="link-suave btn-topo">▲ TOPO</a>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
