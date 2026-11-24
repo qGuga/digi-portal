@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const item = tipo === 'patch' ? listaPatches[id] : (tipo === 'tool' ? listaFerramentas[id] : guiasProgressao[id]);
 
     if (item) {
-      document.title = `${item.titulo} • Digi-Portal`;
+      document.title = `${item.titulo} • DigiLab-Hub`;
       const tagTexto = tipo === 'patch' ? item.versao : (tipo === 'tool' ? item.categoria : item.labelFase);
       const tagClasse = tipo === 'patch' ? 'tag-patch' : (tipo === 'tool' ? 'tag-tool' : item.classeTag);
       const bannerHtml = item.imagem ? `<img src="${item.imagem}" alt="${item.titulo}" class="artigo-banner">` : '';
