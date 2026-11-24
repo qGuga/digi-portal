@@ -23,6 +23,7 @@ const guiasProgressao = [
     arquivo: "posts/shinjuku.html"
   },
 
+
   {
     titulo: "Fechando o Early Game: Desbloqueio da Digital Area",
     fase: "early",
@@ -32,6 +33,17 @@ const guiasProgressao = [
     imagem: "img/digital.jpg", // Troque pela capa/print da Digital Area
     resumo: "Requisitos após Shinjuku, como liberar a entrada da Digital Area, preparação de status e primeiros farms da região.",
     arquivo: "posts/digital-area.html"
+  },
+
+  {
+    titulo: "Saga de Tokyo Area:",
+    fase: "early", // Se quiser marcar como início do Mid-Game, troque para "mid"
+    labelFase: "Early Game", // Troque para "Mid Game" se mudar a fase acima
+    classeTag: "tag-early", // Troque para "tag-mid" se mudar a fase acima
+    data: "23 de Novembro, 2026 • Guia Oficial DMW",
+    imagem: "img/zzx.webp", // Troque pela capa/print de Tokyo Area
+    resumo: "Como liberar os mapas de Tokyo Area, sequência das main quests (Odaiba, Big Sight, Shibuya), raids locais e preparação de status.",
+    arquivo: "posts/tokyo-area.html"
   }
 
 ];
