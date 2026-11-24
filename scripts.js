@@ -67,7 +67,7 @@ const listaFerramentas = [
     categoria: "Simulador • True Vice",
     data: "Calculadora Interativa",
     titulo: "Calculadora de True Digivice (Tokyo Tokens)",
-    imagem: "img/coragem.png", // Troque pela imagem do True Vice
+    imagem: "img/maxresdefault.jpg", // Troque pela imagem do True Vice
     resumo: "Informe quantos materiais e Tokyo Tokens você já possui para calcular exatamente o que falta farmar.",
     arquivo: "posts/calc-true-vice.html"
   }
