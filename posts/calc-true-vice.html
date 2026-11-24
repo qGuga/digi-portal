@@ -1,4 +1,4 @@
-<p>Calcule exatamente quantos materiais e <strong>Tokyo Tokens</strong> ainda faltam para você craftar o seu <strong>True Digivice</strong>. Preencha abaixo as quantidades que você já possui no inventário ou armazém.</p>
+<p>Calcule exatamente quantos materiais e <strong>Tokyo Tokens</strong> (taxa 5:1 para DigiCore, Soul e Venom) ainda faltam para evoluir seu Digivice até o <strong>True Digivice (5ª Adventure)</strong>.</p>
 
 <style>
   .calc-painel {
@@ -8,43 +8,58 @@
     padding: 24px;
     margin: 24px 0;
   }
-
-  .calc-topo-tokens {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
+  .calc-topo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: 15px;
-    background: rgba(251, 191, 36, 0.08);
-    border: 1px solid rgba(251, 191, 36, 0.3);
-    padding: 16px 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
   }
-
+  .calc-box-config {
+    background: rgba(0, 229, 255, 0.08);
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    padding: 16px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .calc-box-config.gold {
+    background: rgba(251, 191, 36, 0.08);
+    border-color: rgba(251, 191, 36, 0.35);
+  }
+  .calc-select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #00e5ff;
+    background: #020408;
+    color: #fff;
+    font-weight: bold;
+    font-size: 0.92rem;
+    cursor: pointer;
+    outline: none;
+  }
   .calc-tabela {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     font-size: 0.95rem;
   }
-
   .calc-tabela th {
     text-align: left;
     padding: 12px 10px;
     border-bottom: 2px solid rgba(0, 229, 255, 0.3);
     color: #00e5ff;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     text-transform: uppercase;
   }
-
   .calc-tabela td {
-    padding: 10px;
+    padding: 12px 10px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
-
   .calc-input {
-    width: 75px;
+    width: 90px;
     padding: 8px;
     border-radius: 6px;
     border: 1px solid rgba(0, 229, 255, 0.4);
@@ -54,44 +69,30 @@
     text-align: center;
     font-size: 0.95rem;
   }
-
-  .calc-input:focus {
-    outline: none;
-    border-color: #fbbf24;
-    box-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
-  }
-
+  .calc-input::placeholder { color: #64748b; }
+  .calc-input:focus { outline: none; border-color: #fbbf24; box-shadow: 0 0 10px rgba(251, 191, 36, 0.3); }
   .badge-custo {
     background: rgba(251, 191, 36, 0.15);
     color: #fbbf24;
     padding: 3px 8px;
     border-radius: 4px;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: bold;
   }
-
   .resumo-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 15px;
-    margin-top: 20px;
+    margin-top: 22px;
   }
-
   .resumo-box {
     background: rgba(15, 25, 45, 0.85);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
-    padding: 18px;
+    padding: 16px;
     text-align: center;
   }
-
-  .resumo-valor {
-    font-size: 1.8rem;
-    font-weight: bold;
-    display: block;
-    margin-top: 6px;
-  }
-
+  .resumo-valor { font-size: 1.65rem; font-weight: bold; display: block; margin-top: 6px; }
   .barra-progresso-bg {
     width: 100%;
     height: 14px;
@@ -99,28 +100,38 @@
     border-radius: 99px;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.15);
-    margin-top: 20px;
+    margin-top: 10px;
   }
-
-  .barra-progresso-fill {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #00e5ff, #fbbf24);
-    transition: width 0.3s ease;
-  }
+  .barra-progresso-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #00e5ff, #fbbf24); transition: width 0.3s ease; }
+  .tabela-referencia { width: 100%; border-collapse: collapse; margin-top: 30px; font-size: 0.85rem; background: rgba(2, 6, 12, 0.6); border-radius: 8px; overflow: hidden; }
+  .tabela-referencia th, .tabela-referencia td { padding: 10px; text-align: center; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+  .tabela-referencia th { background: rgba(251, 191, 36, 0.15); color: #fbbf24; }
 </style>
-
 <div class="calc-painel">
-  <!-- Campo para Tokens que o jogador já possui -->
-  <div class="calc-topo-tokens">
-    <div>
-      <strong style="color: #fbbf24; font-size: 1.05rem;">🪙 Seus Tokyo Tokens atuais na Bag:</strong>
-      <p style="margin: 4px 0 0 0; font-size: 0.85rem; color: #94a3b8;">Será descontado automaticamente do total necessário.</p>
+  <div class="calc-topo-grid">
+    <div class="calc-box-config">
+      <div>
+        <strong style="color: #00e5ff; font-size: 0.98rem;">⚙️ Estágio atual do seu Digivice:</strong>
+        <p style="margin: 4px 0 0 0; font-size: 0.82rem; color: #94a3b8;">Soma apenas o que falta até o True Vice.</p>
+      </div>
+      <select id="etapa-atual-vice" class="calc-select" onchange="atualizarMetaVice()">
+        <option value="0">Do Zero → True Vice (5 etapas)</option>
+        <option value="1">Já tenho 1ª Beginning (Faltam 4)</option>
+        <option value="2">Já tenho 2ª Beginning (Faltam 3)</option>
+        <option value="3">Já tenho 3ª Beginning (Faltam 2)</option>
+        <option value="4">Já tenho 4ª Adventure (Falta só True Vice)</option>
+      </select>
     </div>
-    <input type="number" id="tokens-atuais" class="calc-input" style="width: 100px; border-color: #fbbf24;" placeholder="0" min="0" oninput="calcularVice()">
+
+    <div class="calc-box-config gold">
+      <div>
+        <strong style="color: #fbbf24; font-size: 0.98rem;">🪙 Seus Tokyo Tokens na Bag:</strong>
+        <p style="margin: 4px 0 0 0; font-size: 0.82rem; color: #94a3b8;">Descontados na compra de DigiCore, Soul e Venom (5:1).</p>
+      </div>
+      <input type="number" id="tokens-atuais" class="calc-input" style="width: 100%; border-color: #fbbf24;" placeholder="0" min="0" oninput="calcularVice()">
+    </div>
   </div>
 
-  <!-- Tabela de Materiais -->
   <div style="overflow-x: auto;">
     <table class="calc-tabela">
       <thead>
@@ -129,97 +140,56 @@
           <th style="text-align: center;">Você Tem</th>
           <th style="text-align: center;">Meta</th>
           <th style="text-align: center;">Faltam</th>
-          <th style="text-align: center;">Custo/Un.</th>
+          <th style="text-align: center;">Troca</th>
           <th style="text-align: right;">Tokens Faltando</th>
         </tr>
       </thead>
-      <tbody id="tabela-materiais">
-        <tr data-req="23" data-custo="2">
-          <td><strong>Fragment of Evolution</strong></td>
-          <td style="text-align: center;"><input type="number" class="calc-input item-qtd" placeholder="0" min="0" max="23" oninput="calcularVice()">
-          <td style="text-align: center; color: #94a3b8;">23</td>
-          <td style="text-align: center; font-weight: bold;" class="col-falta">23</td>
-          <td style="text-align: center;"><span class="badge-custo">2 Tokens</span></td>
-          <td style="text-align: right; color: #fbbf24; font-weight: bold;" class="col-tokens">46</td>
+      <tbody>
+        <tr>
+          <td><strong>✨ Essence</strong></td>
+          <td style="text-align: center;"><input type="number" id="input-essence" class="calc-input" placeholder="0" min="0" oninput="calcularVice()"></td>
+          <td style="text-align: center; color: #94a3b8;" id="meta-essence">1750</td>
+          <td style="text-align: center; font-weight: bold;" id="falta-essence">1750</td>
+          <td style="text-align: center; color: #64748b; font-size: 0.82rem;">Farm direto</td>
+          <td style="text-align: right; color: #64748b;" id="tokens-essence">—</td>
         </tr>
-        <tr data-req="26" data-custo="2">
-          <td><strong>Piece of Evolution</strong></td>
-          <td style="text-align: center;"><input type="number" class="calc-input item-qtd" placeholder="0" min="0" max="23" oninput="calcularVice()">
-          <td style="text-align: center; color: #94a3b8;">26</td>
-          <td style="text-align: center; font-weight: bold;" class="col-falta">26</td>
-          <td style="text-align: center;"><span class="badge-custo">2 Tokens</span></td>
-          <td style="text-align: right; color: #fbbf24; font-weight: bold;" class="col-tokens">52</td>
-        </tr>
-        <tr data-req="19" data-custo="2">
-          <td><strong>Myotismon's Digicore</strong></td>
-          <td style="text-align: center;"><input type="number" class="calc-input item-qtd" placeholder="0" min="0" max="19" oninput="calcularVice()"></td>
-          <td style="text-align: center; color: #94a3b8;">19</td>
-          <td style="text-align: center; font-weight: bold;" class="col-falta">19</td>
-          <td style="text-align: center;"><span class="badge-custo">2 Tokens</span></td>
-          <td style="text-align: right; color: #fbbf24; font-weight: bold;" class="col-tokens">38</td>
-        </tr>
-        <tr data-req="17" data-custo="2">
-          <td><strong>Infective Virus</strong></td>
-          <td style="text-align: center;"><input type="number" class="calc-input item-qtd" placeholder="0" min="0" max="17" oninput="calcularVice()"></td>
-          <td style="text-align: center; color: #94a3b8;">17</td>
-          <td style="text-align: center; font-weight: bold;" class="col-falta">17</td>
-          <td style="text-align: center;"><span class="badge-custo">2 Tokens</span></td>
-          <td style="text-align: right; color: #fbbf24; font-weight: bold;" class="col-tokens">34</td>
-        </tr>
-        <tr data-req="7" data-custo="2">
-          <td><strong>Digimon's Bionic Energy</strong></td>
-          <td style="text-align: center;"><input type="number" class="calc-input item-qtd" placeholder="0" min="0" max="7" oninput="calcularVice()"></td>
-          <td style="text-align: center; color: #94a3b8;">7</td>
-          <td style="text-align: center; font-weight: bold;" class="col-falta">7</td>
-          <td style="text-align: center;"><span class="badge-custo">2 Tokens</span></td>
-          <td style="text-align: right; color: #fbbf24; font-weight: bold;" class="col-tokens">14</td>
-        </tr>
-        <tr data-req="7" data-custo="2">
-          <td><strong>Digital Energy</strong></td>
-          <td style="text-align: center;"><input type="number" class="calc-input item-qtd" placeholder="0" min="0" max="7" oninput="calcularVice()"></td>
-          <td style="text-align: center; color: #94a3b8;">7</td>
-          <td style="text-align: center; font-weight: bold;" class="col-falta">7</td>
-          <td style="text-align: center;"><span class="badge-custo">2 Tokens</span></td>
-          <td style="text-align: right; color: #fbbf24; font-weight: bold;" class="col-tokens">14</td>
-        </tr>
-        <tr data-req="18" data-custo="5">
-          <td><strong>SkullMeramon's Digicore</strong></td>
-          <td style="text-align: center;"><input type="number" class="calc-input item-qtd" placeholder="0" min="0" max="18" oninput="calcularVice()"></td>
-          <td style="text-align: center; color: #94a3b8;">18</td>
-          <td style="text-align: center; font-weight: bold;" class="col-falta">18</td>
+        <tr>
+          <td><strong>💀 SkullMeramon DigiCore</strong></td>
+          <td style="text-align: center;"><input type="number" id="input-skull" class="calc-input" placeholder="0" min="0" oninput="calcularVice()"></td>
+          <td style="text-align: center; color: #94a3b8;" id="meta-skull">70</td>
+          <td style="text-align: center; font-weight: bold;" id="falta-skull">70</td>
           <td style="text-align: center;"><span class="badge-custo">5 Tokens</span></td>
-          <td style="text-align: right; color: #fbbf24; font-weight: bold;" class="col-tokens">90</td>
+          <td style="text-align: right; color: #fbbf24; font-weight: bold;" id="tokens-skull">350</td>
         </tr>
-        <tr data-req="10" data-custo="5">
-          <td><strong>Soul of Myotismon</strong></td>
-          <td style="text-align: center;"><input type="number" class="calc-input item-qtd" placeholder="0" min="0" max="10" oninput="calcularVice()"></td>
-          <td style="text-align: center; color: #94a3b8;">10</td>
-          <td style="text-align: center; font-weight: bold;" class="col-falta">10</td>
+        <tr>
+          <td><strong>👻 Soul of Myotismon</strong></td>
+          <td style="text-align: center;"><input type="number" id="input-soul" class="calc-input" placeholder="0" min="0" oninput="calcularVice()"></td>
+          <td style="text-align: center; color: #94a3b8;" id="meta-soul">30</td>
+          <td style="text-align: center; font-weight: bold;" id="falta-soul">30</td>
           <td style="text-align: center;"><span class="badge-custo">5 Tokens</span></td>
-          <td style="text-align: right; color: #fbbf24; font-weight: bold;" class="col-tokens">50</td>
+          <td style="text-align: right; color: #fbbf24; font-weight: bold;" id="tokens-soul">150</td>
         </tr>
-        <tr data-req="7" data-custo="5">
-          <td><strong>VenomMyotismon's Venom</strong></td>
-          <td style="text-align: center;"><input type="number" class="calc-input item-qtd" placeholder="0" min="0" max="7" oninput="calcularVice()"></td>
-          <td style="text-align: center; color: #94a3b8;">7</td>
-          <td style="text-align: center; font-weight: bold;" class="col-falta">7</td>
+        <tr>
+          <td><strong>🧪 Venom</strong></td>
+          <td style="text-align: center;"><input type="number" id="input-venom" class="calc-input" placeholder="0" min="0" oninput="calcularVice()"></td>
+          <td style="text-align: center; color: #94a3b8;" id="meta-venom">70</td>
+          <td style="text-align: center; font-weight: bold;" id="falta-venom">70</td>
           <td style="text-align: center;"><span class="badge-custo">5 Tokens</span></td>
-          <td style="text-align: right; color: #fbbf24; font-weight: bold;" class="col-tokens">35</td>
+          <td style="text-align: right; color: #fbbf24; font-weight: bold;" id="tokens-venom">350</td>
         </tr>
       </tbody>
     </table>
   </div>
-
-  <div style="text-align: right;">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+    <span id="status-final-vice" style="font-weight: bold; color: #00ff88;"></span>
     <button type="button" onclick="zerarCalcVice()" style="background: rgba(244, 63, 94, 0.2); border: 1px solid #f43f5e; color: #fb7185; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem;">
       ↺ Zerar Campos
     </button>
   </div>
 
-  <!-- Barra de Progresso -->
-  <div style="margin-top: 20px;">
+  <div style="margin-top: 22px;">
     <div style="display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: bold;">
-      <span>Progresso do True Digivice</span>
+      <span>Progresso Total até o True Digivice</span>
       <span id="texto-porcentagem" style="color: #00e5ff;">0%</span>
     </div>
     <div class="barra-progresso-bg">
@@ -227,9 +197,70 @@
     </div>
   </div>
 
-  <!-- Resultados Finais -->
   <div class="resumo-grid">
     <div class="resumo-box">
-      <span style="font-size: 0.85rem; color: #94a3b8;">Custo Total da Receita</span>
-      <span class="resumo-valor" style="color: #cbd5e1;">373 Tokens</span>
+      <span style="font-size: 0.85rem; color: #94a3b8;">Essence Restante</span>
+      <span class="resumo-valor" id="res-falta-essence" style="color: #00e5ff;">1750</span>
     </div>
+    <div class="resumo-box">
+      <span style="font-size: 0.85rem; color: #94a3b8;">Tokens para os Itens</span>
+      <span class="resumo-valor" id="res-tokens-bruto" style="color: #cbd5e1;">850</span>
+    </div>
+    <div class="resumo-box" style="border-color: rgba(251, 191, 36, 0.5);">
+      <span style="font-size: 0.85rem; color: #fbbf24;">Tokyo Tokens a Farmar</span>
+      <span class="resumo-valor" id="res-tokens-farmar" style="color: #fbbf24;">850 Tokens</span>
+    </div>
+  </div>
+
+  <h4 style="margin: 30px 0 10px 0; color: #cbd5e1;">📋 Tabela Completa de Receitas por Etapa</h4>
+  <div style="overflow-x: auto;">
+    <table class="tabela-referencia">
+      <thead>
+        <tr>
+          <th style="text-align: left;">Etapa</th>
+          <th>Essence</th>
+          <th>SkullMeramon DigiCore</th>
+          <th>Soul of Myotismon</th>
+          <th>Venom</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: left;"><strong>1ª Beginning</strong></td>
+          <td>150</td>
+          <td>30</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td style="text-align: left;"><strong>2ª Beginning</strong></td>
+          <td>300</td>
+          <td>40</td>
+          <td>—</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td style="text-align: left;"><strong>3ª Beginning</strong></td>
+          <td>300</td>
+          <td>—</td>
+          <td>30</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td style="text-align: left;"><strong>4ª Adventure</strong></td>
+          <td>500</td>
+          <td>—</td>
+          <td>—</td>
+          <td>30</td>
+        </tr>
+        <tr style="background: rgba(251, 191, 36, 0.08);">
+          <td style="text-align: left; color: #fbbf24;"><strong>5ª Adventure (True Vice)</strong></td>
+          <td><strong>500</strong></td>
+          <td>—</td>
+          <td>—</td>
+          <td><strong>40</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

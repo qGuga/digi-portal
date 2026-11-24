@@ -1,5 +1,5 @@
 // ========================================================
-// 1. CATÁLOGO DE GUIAS (APONTA PARA A PASTA POSTS)
+// 1. CATÁLOGO DE GUIAS DE PROGRESSÃO
 // ========================================================
 const guiasProgressao = [
   {
@@ -13,54 +13,49 @@ const guiasProgressao = [
     arquivo: "posts/iniciando-conta.html"
   },
   {
-    titulo: "Liberando e Completando Shinjuku",
+    titulo: "Continuação Early Game: Liberando e Completando Shinjuku",
     fase: "early",
     labelFase: "Early Game",
     classeTag: "tag-early",
     data: "23 de Novembro, 2026 • Guia Oficial DMW",
-    imagem: "img/guil.jpg", // Coloque aqui a capa/print de Shinjuku
+    imagem: "img/guil.jpg",
     resumo: "Como desbloquear o acesso a Shinjuku (West e East), ordem das main quests, D-Reaper e recompensas essenciais da saga.",
     arquivo: "posts/shinjuku.html"
   },
-
-
   {
     titulo: "Fechando o Early Game: Desbloqueio da Digital Area",
     fase: "early",
     labelFase: "Early Game",
     classeTag: "tag-early",
     data: "23 de Novembro, 2026 • Guia Oficial DMW",
-    imagem: "img/digital.jpg", // Troque pela capa/print da Digital Area
+    imagem: "img/digital.jpg",
     resumo: "Requisitos após Shinjuku, como liberar a entrada da Digital Area, preparação de status e primeiros farms da região.",
     arquivo: "posts/digital-area.html"
   },
-
   {
-    titulo: "Saga de Tokyo Area:",
-    fase: "early", // Se quiser marcar como início do Mid-Game, troque para "mid"
-    labelFase: "Early Game", // Troque para "Mid Game" se mudar a fase acima
-    classeTag: "tag-early", // Troque para "tag-mid" se mudar a fase acima
+    titulo: "Saga de Tokyo Area: Liberando Odaiba, Big Sight e Shibuya",
+    fase: "early",
+    labelFase: "Early Game",
+    classeTag: "tag-early",
     data: "23 de Novembro, 2026 • Guia Oficial DMW",
-    imagem: "img/zzx.webp", // Troque pela capa/print de Tokyo Area
+    imagem: "img/zzx.webp",
     resumo: "Como liberar os mapas de Tokyo Area, sequência das main quests (Odaiba, Big Sight, Shibuya), raids locais e preparação de status.",
     arquivo: "posts/tokyo-area.html"
   },
-
   {
     titulo: "Guia de Raid: Coliseu Extreme (R1 ao R6) — Mecânicas",
     fase: "mid",
     labelFase: "Mid Game",
     classeTag: "tag-mid",
     data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
-    imagem: "img/colo.jpg", // Troque pela imagem/print do Coliseu Extreme
-    resumo: "Preparação para Tanks e DPS, sequência completa de mecânicas.",
+    imagem: "img/colo.jpg",
+    resumo: "Preparação para Tanks e DPS, sequência completa de Stack/Split (Millenniummon), círculos de dano e tabela de HP do Examon X e Ordinemon.",
     arquivo: "posts/colo-extreme.html"
   }
-
 ];
 
 // ========================================================
-// 2. CATÁLOGO DE PATCH NOTES (APONTA PARA A PASTA POSTS)
+// 2. CATÁLOGO DE PATCH NOTES
 // ========================================================
 const listaPatches = [
   {
@@ -73,34 +68,31 @@ const listaPatches = [
   }
 ];
 
+// ========================================================
+// 3. CATÁLOGO DE FERRAMENTAS & SIMULADORES
+// ========================================================
 const listaFerramentas = [
   {
     categoria: "Simulador • True Vice",
     data: "Calculadora Interativa",
-    titulo: "Calculadora de True Digivice (Tokyo Tokens)",
-    imagem: "img/maxresdefault.jpg", // Troque pela imagem do True Vice
-    resumo: "Informe quantos materiais e Tokyo Tokens você já possui para calcular exatamente o que falta farmar.",
-    arquivo: "posts/calc-true-vice.html",
+    titulo: "Calculadora de True Digivice (Tokyo Tokens 5:1)",
+    imagem: "img/maxresdefault.jpg",
+    resumo: "Selecione sua etapa atual (Beginning/Adventure) e calcule quanto falta de Essence e Tokyo Tokens.",
+    arquivo: "posts/calc-true-vice.html"
   },
   {
     categoria: "Simulador • Dungeons",
     data: "Ferramenta Interativa",
     titulo: "Verificador de Dungeons (DPS & Tank)",
-    imagem: "img/verfdg.png", // Troque pela miniatura/banner dessa ferramenta
+    imagem: "img/verfdg.png",
     resumo: "Informe seus status de DPS (HP/CT/HT) ou Tank (HP/DE/BL) para descobrir quais dungeons você já pode fazer.",
     arquivo: "posts/verificador-dg.html"
-
-
   }
 ];
-
-
-
 // ========================================================
-// 3. MOTOR DO SITE (NÃO PRECISA MEXER DAQUI PARA BAIXO)
+// 4. MOTOR DO SITE (CARREGAMENTO, FILTROS E SCROLL)
 // ========================================================
 document.addEventListener("DOMContentLoaded", () => {
-  // Carrega o artigo completo quando estiver no artigo.html
   const containerArtigo = document.getElementById('artigo-completo');
   if (containerArtigo) {
     const params = new URLSearchParams(window.location.search);
@@ -140,9 +132,9 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  // Gera os cards na página inicial (index.html)
   const gradeGuias = document.getElementById('grade-guias');
   const gradePatches = document.getElementById('grade-patches');
+  const gradeFerramentas = document.getElementById('grade-ferramentas');
   const inputBusca = document.getElementById('busca-guia');
   let categoriaAtual = 'todos';
 
@@ -201,7 +193,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  const gradeFerramentas = document.getElementById('grade-ferramentas');
   function renderizarFerramentas() {
     if (!gradeFerramentas) return;
     gradeFerramentas.innerHTML = '';
@@ -225,7 +216,6 @@ document.addEventListener("DOMContentLoaded", () => {
       gradeFerramentas.appendChild(card);
     });
   }
-  renderizarFerramentas();
 
   document.querySelectorAll('.aba-btn').forEach(btn => {
     btn.onclick = () => {
@@ -239,8 +229,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (inputBusca) inputBusca.oninput = renderizarGuias;
   renderizarGuias();
   renderizarPatches();
+  renderizarFerramentas();
 
-  // Crossfade de fundo e deslize suave
   const c0 = document.getElementById('cenario-0'), c1 = document.getElementById('cenario-1'), c2 = document.getElementById('cenario-2'), c3 = document.getElementById('cenario-3');
   const secProg = document.getElementById('progressao'), secPatch = document.getElementById('patch-notes'), secTools = document.getElementById('ferramentas');
 
@@ -257,51 +247,6 @@ document.addEventListener("DOMContentLoaded", () => {
       c0.style.opacity = 0; c1.style.opacity = 0; c2.style.opacity = 0; c3.style.opacity = 1;
     }
   }
-
-  // FUNÇÕES DA CALCULADORA DE TRUE DIGIVICE
-// ========================================================
-function calcularVice() {
-  const linhas = document.querySelectorAll('#tabela-materiais tr');
-  if (!linhas.length) return;
-
-  let tokensNecessariosItens = 0;
-
-  linhas.forEach(linha => {
-    const req = parseInt(linha.dataset.req, 10);
-    const custo = parseInt(linha.dataset.custo, 10);
-    const input = linha.querySelector('.item-qtd');
-    let tenho = parseInt(input.value, 10) || 0;
-
-    if (tenho < 0) { tenho = 0; input.value = 0; }
-
-    const falta = Math.max(req - tenho, 0);
-    const tokensItem = falta * custo;
-    tokensNecessariosItens += tokensItem;
-
-    const colFalta = linha.querySelector('.col-falta');
-    const colTokens = linha.querySelector('.col-tokens');
-
-    colFalta.textContent = falta === 0 ? '✔ OK' : falta;
-    colFalta.style.color = falta === 0 ? '#00ff88' : '#f8fafc';
-    colTokens.textContent = tokensItem;
-  });
-
-  const tokensNaBag = Math.max(parseInt(document.getElementById('tokens-atuais').value, 10) || 0, 0);
-  const tokensParaFarmar = Math.max(tokensNecessariosItens - tokensNaBag, 0);
-
-  document.getElementById('res-tokens-itens').textContent = tokensNecessariosItens;
-  document.getElementById('res-tokens-farmar').textContent = tokensParaFarmar === 0 ? 'Pronto! 🎉' : `${tokensParaFarmar} Tokens`;
-
-  const progresso = Math.min(Math.round(((373 - tokensParaFarmar) / 373) * 100), 100);
-  document.getElementById('texto-porcentagem').textContent = `${progresso}%`;
-  document.getElementById('barra-progresso').style.width = `${progresso}%`;
-}
-
-function zerarCalcVice() {
-  document.getElementById('tokens-atuais').value = 0;
-  document.querySelectorAll('#tabela-materiais .item-qtd').forEach(input => input.value = 0);
-  calcularVice();
-}
 
   window.addEventListener('scroll', atualizarCenario);
   atualizarCenario();
@@ -323,70 +268,130 @@ function zerarCalcVice() {
     l.addEventListener('click', e => { e.preventDefault(); const s = document.querySelector(l.getAttribute('href')); if (s) deslizarPara(s, 1200); });
   });
 });
+// ========================================================
+// 5. CALCULADORA DE TRUE DIGIVICE (COM TOKYO TOKENS 5:1)
+// ========================================================
+const receitasVice = [
+  { essence: 150, skull: 30, soul: 0, venom: 0 },
+  { essence: 300, skull: 40, soul: 0, venom: 0 },
+  { essence: 300, skull: 0, soul: 30, venom: 0 },
+  { essence: 500, skull: 0, soul: 0, venom: 30 },
+  { essence: 500, skull: 0, soul: 0, venom: 40 }
+];
 
-// ========================================================
-// FUNÇÕES GLOBAIS DA CALCULADORA DE TRUE DIGIVICE
-// ========================================================
+let metaAtualVice = { essence: 1750, skull: 70, soul: 30, venom: 70 };
+
+window.atualizarMetaVice = function() {
+  const select = document.getElementById('etapa-atual-vice');
+  const etapaInicial = select ? parseInt(select.value, 10) : 0;
+
+  metaAtualVice = { essence: 0, skull: 0, soul: 0, venom: 0 };
+  for (let i = etapaInicial; i < receitasVice.length; i++) {
+    metaAtualVice.essence += receitasVice[i].essence;
+    metaAtualVice.skull += receitasVice[i].skull;
+    metaAtualVice.soul += receitasVice[i].soul;
+    metaAtualVice.venom += receitasVice[i].venom;
+  }
+
+  document.getElementById('meta-essence').textContent = metaAtualVice.essence;
+  document.getElementById('meta-skull').textContent = metaAtualVice.skull;
+  document.getElementById('meta-soul').textContent = metaAtualVice.soul;
+  document.getElementById('meta-venom').textContent = metaAtualVice.venom;
+
+  window.calcularVice();
+};
+
 window.calcularVice = function() {
-  const linhas = document.querySelectorAll('#tabela-materiais tr');
-  if (!linhas.length) return;
+  const itens = ['essence', 'skull', 'soul', 'venom'];
+  let faltam = { essence: 0, skull: 0, soul: 0, venom: 0 };
+  let concluidos = { essence: 0, skull: 0, soul: 0, venom: 0 };
 
-  let tokensNecessariosItens = 0;
+  itens.forEach(item => {
+    const input = document.getElementById(`input-${item}`);
+    const colFalta = document.getElementById(`falta-${item}`);
+    const colTokens = document.getElementById(`tokens-${item}`);
+    if (!input || !colFalta) return;
 
-  linhas.forEach(linha => {
-    const req = parseInt(linha.getAttribute('data-req'), 10);
-    const custo = parseInt(linha.getAttribute('data-custo'), 10);
-    const input = linha.querySelector('.item-qtd');
     let tenho = parseInt(input.value, 10) || 0;
+    if (tenho < 0) { tenho = 0; input.value = ''; }
 
-    if (tenho < 0) { tenho = 0; input.value = 0; }
+    const meta = metaAtualVice[item];
+    const falta = Math.max(meta - tenho, 0);
+    faltam[item] = falta;
+    concluidos[item] = Math.min(tenho, meta);
 
-    const falta = Math.max(req - tenho, 0);
-    const tokensItem = falta * custo;
-    tokensNecessariosItens += tokensItem;
-
-    const colFalta = linha.querySelector('.col-falta');
-    const colTokens = linha.querySelector('.col-tokens');
-
-    if (colFalta) {
-      colFalta.textContent = falta === 0 ? '✔ OK' : falta;
-      colFalta.style.color = falta === 0 ? '#00ff88' : '#f8fafc';
+    if (meta === 0) {
+      colFalta.textContent = 'Não precisa';
+      colFalta.style.color = '#64748b';
+    } else if (falta === 0) {
+      colFalta.textContent = '✔ Completo';
+      colFalta.style.color = '#00ff88';
+    } else {
+      colFalta.textContent = falta;
+      colFalta.style.color = '#f8fafc';
     }
-    if (colTokens) {
-      colTokens.textContent = tokensItem;
+
+    if (colTokens && item !== 'essence') {
+      colTokens.textContent = falta * 5;
     }
   });
 
+  const tokensNecessariosItens = (faltam.skull + faltam.soul + faltam.venom) * 5;
   const inputBag = document.getElementById('tokens-atuais');
   const tokensNaBag = inputBag ? Math.max(parseInt(inputBag.value, 10) || 0, 0) : 0;
   const tokensParaFarmar = Math.max(tokensNecessariosItens - tokensNaBag, 0);
 
-  const elItens = document.getElementById('res-tokens-itens');
-  const elFarmar = document.getElementById('res-tokens-farmar');
-  const elPorcento = document.getElementById('texto-porcentagem');
-  const elBarra = document.getElementById('barra-progresso');
+  document.getElementById('res-falta-essence').textContent = faltam.essence === 0 ? '✔ OK' : faltam.essence;
+  document.getElementById('res-tokens-bruto').textContent = tokensNecessariosItens;
+  document.getElementById('res-tokens-farmar').textContent = tokensParaFarmar === 0 ? 'Pronto! 🎉' : `${tokensParaFarmar} Tokens`;
 
-  if (elItens) elItens.textContent = tokensNecessariosItens;
-  if (elFarmar) elFarmar.textContent = tokensParaFarmar === 0 ? 'Pronto! 🎉' : `${tokensParaFarmar} Tokens`;
+  const metaTokensTotal = (metaAtualVice.skull + metaAtualVice.soul + metaAtualVice.venom) * 5;
+  const pontosMeta = metaAtualVice.essence + metaTokensTotal;
+  const tokensConcluidos = Math.min(((concluidos.skull + concluidos.soul + concluidos.venom) * 5) + tokensNaBag, metaTokensTotal);
+  const pontosConcluidos = concluidos.essence + tokensConcluidos;
 
-  const progresso = Math.min(Math.round(((373 - tokensParaFarmar) / 373) * 100), 100);
-  if (elPorcento) elPorcento.textContent = `${progresso}%`;
-  if (elBarra) elBarra.style.width = `${progresso}%`;
+  const progresso = pontosMeta > 0 ? Math.min(Math.round((pontosConcluidos / pontosMeta) * 100), 100) : 100;
+  document.getElementById('texto-porcentagem').textContent = `${progresso}%`;
+  document.getElementById('barra-progresso').style.width = `${progresso}%`;
+
+  const elStatus = document.getElementById('status-final-vice');
+  if (elStatus) {
+    elStatus.textContent = (faltam.essence === 0 && tokensParaFarmar === 0)
+      ? '🎉 Você já tem todos os recursos necessários para o True Digivice!'
+      : '';
+  }
 };
 
 window.zerarCalcVice = function() {
   const inputBag = document.getElementById('tokens-atuais');
-  if (inputBag) inputBag.value = 0;
-  document.querySelectorAll('#tabela-materiais .item-qtd').forEach(input => input.value = 0);
+  if (inputBag) inputBag.value = '';
+  ['essence', 'skull', 'soul', 'venom'].forEach(item => {
+    const input = document.getElementById(`input-${item}`);
+    if (input) input.value = '';
+  });
   window.calcularVice();
 };
-
 // ========================================================
-// FERRAMENTA: VERIFICADOR DE DUNGEONS (BANCO COMPLETO)
+// 6. VERIFICADOR DE DUNGEONS (BANCO COMPLETO)
 // ========================================================
 let funcaoAtualDG = 'dps';
 
 const bancoDungeons = [
+  {
+    nome: "🐾 Holy Beast Dungeon [Solo] (EDG / ZDG / BDG / QDG)",
+    dps: { hp: 40000, ct: 220, ht: 3000, nota: "Modo Solo (Sem Ticket • Drops Character Bound) • Exige também: CD 350% e BL 100%." },
+    tank: { hp: 40000, de: 0, bl: 100, nota: "Modo Solo (Sem Ticket • Drops Character Bound) • Exige também: HT 3k." }
+  },
+  {
+    nome: "🗼 Tokyo Dungeons [Solo] (Tokyo Tower & Fuji TV)",
+    dps: { hp: 40000, ct: 220, ht: 4500, nota: "Modo Solo (Sem Ticket • Drops Character Bound) • Exige também: CD 350% e BL 100%." },
+    tank: { hp: 40000, de: 0, bl: 100, nota: "Modo Solo (Sem Ticket • Drops Character Bound) • Exige também: HT 4.5k." }
+  },
+  {
+    nome: "🏙️ Shinjuku Dungeons [Solo] (Venomous Vortex, Vajramon & Vikaralamon)",
+    dps: { hp: 40000, ct: 220, ht: 7000, nota: "Modo Solo (Sem Ticket • Drops Character Bound) • Exige também: CD 350% e BL 100%." },
+    tank: { hp: 40000, de: 0, bl: 100, nota: "Modo Solo (Sem Ticket • Drops Character Bound) • Exige também: HT 7k." }
+  },
   {
     nome: "🐘 Vajramon",
     dps: { hp: 45000, ct: 200, ht: 7000, nota: "Requisito Overall (Serve para DPS/Geral)." },
@@ -405,7 +410,7 @@ const bancoDungeons = [
   {
     nome: "🛍️ Shopping Mall",
     dps: { hp: 60000, ct: 200, ht: 7500, nota: "Requisito Overall • Exige também: CD 350%+ e BL 100%." },
-    tank: { hp: 60000, de: 0, bl: 100, nota: "Requisito Overall • Exige também: CT 200%+, HT 7.5k+ e CD 350%+." }
+    tank: { hp: 60000, de: 0, bl: 100, nota: "Requisito Overall • Exige também: HT 7.5k+." }
   },
   {
     nome: "🎡 Neverland",
@@ -506,24 +511,15 @@ const bancoDungeons = [
     nome: "🌀 Mysterious Underground Dungeon [TA]",
     dps: null,
     tank: { hp: 1800000, de: 30000, bl: 140, nota: "Requisito Overall (Tank/TA) • EV não especificado." }
-  },
-    {
-    nome: "🐾 Holy Beast Dungeon [Solo] (EDG / ZDG / BDG / QDG)",
-    dps: { hp: 40000, ct: 220, ht: 3000, nota: "Modo Solo (Sem Ticket • Drops Character Bound) • Exige também: CD 350% e BL 100%." },
-    tank: { hp: 40000, de: 0, bl: 100, nota: "Modo Solo (Sem Ticket • Drops Character Bound) • Exige também: HT 3k." }
-  },
-  {
-    nome: "🗼 Tokyo Dungeons [Solo] (Tokyo Tower & Fuji TV)",
-    dps: { hp: 40000, ct: 220, ht: 4500, nota: "Modo Solo (Sem Ticket • Drops Character Bound) • Exige também: CD 350% e BL 100%." },
-    tank: { hp: 40000, de: 0, bl: 100, nota: "Modo Solo (Sem Ticket • Drops Character Bound) • Exige também: HT 4.5k." }
-  },
-  {
-    nome: "🏙️ Shinjuku Dungeons [Solo] (Venomous Vortex, Vajramon & Vikaralamon)",
-    dps: { hp: 40000, ct: 220, ht: 7000, nota: "Modo Solo (Sem Ticket • Drops Character Bound) • Exige também: CD 350% e BL 100%." },
-    tank: { hp: 40000, de: 0, bl: 100, nota: "Modo Solo (Sem Ticket • Drops Character Bound) • Exige também: HT 7k." }
-  },
-
+  }
 ];
+function converterValorStatus(valorTexto) {
+  if (!valorTexto) return 0;
+  let limpo = valorTexto.toString().trim().toLowerCase().replace(',', '.').replace('%', '');
+  if (limpo.endsWith('k')) return (parseFloat(limpo.slice(0, -1)) || 0) * 1000;
+  if (limpo.endsWith('m')) return (parseFloat(limpo.slice(0, -1)) || 0) * 1000000;
+  return parseFloat(limpo) || 0;
+}
 
 window.mudarFuncaoDG = function(role) {
   funcaoAtualDG = role;
@@ -547,43 +543,26 @@ window.mudarFuncaoDG = function(role) {
     l1.textContent = '❤️ Seu HP Máximo';
     l2.textContent = '💥 Seu Critical Rate (CT %)';
     l3.textContent = '🎯 Seu Hit Rate (HT)';
-    i1.placeholder = 'Ex: 105000';
-    i2.placeholder = 'Ex: 350';
-    i3.placeholder = 'Ex: 15500';
+    i1.placeholder = 'Ex: 105k ou 105000';
+    i2.placeholder = 'Ex: 350 ou 350%';
+    i3.placeholder = 'Ex: 15.5k ou 15500';
   } else {
     btnTank.className = 'btn-funcao ativo-tank';
     btnDps.className = 'btn-funcao';
     l1.textContent = '❤️ Seu HP Máximo';
     l2.textContent = '🛡️ Sua Defesa (DE)';
     l3.textContent = '🧱 Seu Block (BL %)';
-    i1.placeholder = 'Ex: 230000';
-    i2.placeholder = 'Ex: 45000';
-    i3.placeholder = 'Ex: 190';
+    i1.placeholder = 'Ex: 230k ou 230000';
+    i2.placeholder = 'Ex: 45k ou 45000';
+    i3.placeholder = 'Ex: 190 ou 190%';
   }
 };
-
-// Converte textos como "120k", "14,5k", "1.8m" ou "350%" em números reais
-function converterValorStatus(valorTexto) {
-  if (!valorTexto) return 0;
-  let limpo = valorTexto.toString().trim().toLowerCase().replace(',', '.').replace('%', '');
-  
-  if (limpo.endsWith('k')) {
-    return (parseFloat(limpo.slice(0, -1)) || 0) * 1000;
-  }
-  if (limpo.endsWith('m')) {
-    return (parseFloat(limpo.slice(0, -1)) || 0) * 1000000;
-  }
-  return parseFloat(limpo) || 0;
-}
 
 window.verificarDungeons = function() {
   const s1 = converterValorStatus(document.getElementById('input-stat-1').value);
   const s2 = converterValorStatus(document.getElementById('input-stat-2').value);
   const s3 = converterValorStatus(document.getElementById('input-stat-3').value);
   const containerRes = document.getElementById('resultado-dungeons');
-  
-  // ... (o restante da função verificarDungeons continua exatamente igual!)
-
 
   if (s1 === 0 && s2 === 0 && s3 === 0) {
     containerRes.innerHTML = `<p style="color: #fbbf24; text-align: center;">⚠️ Preencha seus status acima para verificar as dungeons.</p>`;
@@ -604,7 +583,7 @@ window.verificarDungeons = function() {
     containerRes.innerHTML = `
       <div style="background: rgba(244, 63, 94, 0.12); border: 1px solid #f43f5e; padding: 18px; border-radius: 8px; text-align: center;">
         <strong style="color: #fb7185;">Nenhuma dungeon recomendada atingida ainda com esses status.</strong>
-        <p style="margin: 6px 0 0 0; font-size: 0.9rem; color: #cbd5e1;">Confira se digitou os valores completos (ex: 80000 para 80k) ou fortaleça seus selos e acessórios!</p>
+        <p style="margin: 6px 0 0 0; font-size: 0.9rem; color: #cbd5e1;">Confira os valores digitados ou fortaleça seus selos, acessórios e clonagem!</p>
       </div>
     `;
     return;
@@ -629,5 +608,3 @@ window.verificarDungeons = function() {
     <div class="lista-dgs-liberadas">${cardsHtml}</div>
   `;
 };
-
-
