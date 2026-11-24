@@ -44,6 +44,17 @@ const guiasProgressao = [
     imagem: "img/zzx.webp", // Troque pela capa/print de Tokyo Area
     resumo: "Como liberar os mapas de Tokyo Area, sequência das main quests (Odaiba, Big Sight, Shibuya), raids locais e preparação de status.",
     arquivo: "posts/tokyo-area.html"
+  },
+
+  {
+    titulo: "Guia de Raid: Coliseu Extreme (R1 ao R6) — Mecânicas",
+    fase: "end",
+    labelFase: "Mid Game",
+    classeTag: "tag-mid",
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/colo.jpg", // Troque pela imagem/print do Coliseu Extreme
+    resumo: "Preparação para Tanks e DPS, sequência completa de mecânicas.",
+    arquivo: "posts/colo-extreme.html"
   }
 
 ];
