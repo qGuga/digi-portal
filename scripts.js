@@ -69,7 +69,17 @@ const listaFerramentas = [
     titulo: "Calculadora de True Digivice (Tokyo Tokens)",
     imagem: "img/maxresdefault.jpg", // Troque pela imagem do True Vice
     resumo: "Informe quantos materiais e Tokyo Tokens você já possui para calcular exatamente o que falta farmar.",
-    arquivo: "posts/calc-true-vice.html"
+    arquivo: "posts/calc-true-vice.html",
+  },
+  {
+    categoria: "Simulador • Dungeons",
+    data: "Ferramenta Interativa",
+    titulo: "Verificador de Dungeons (DPS & Tank)",
+    imagem: "img/verfdg.png", // Troque pela miniatura/banner dessa ferramenta
+    resumo: "Informe seus status de DPS (HP/CT/HT) ou Tank (HP/DE/BL) para descobrir quais dungeons você já pode fazer.",
+    arquivo: "posts/verificador-dg.html"
+
+
   }
 ];
 
@@ -359,4 +369,254 @@ window.zerarCalcVice = function() {
   document.querySelectorAll('#tabela-materiais .item-qtd').forEach(input => input.value = 0);
   window.calcularVice();
 };
+
+// ========================================================
+// FERRAMENTA: VERIFICADOR DE DUNGEONS (BANCO COMPLETO)
+// ========================================================
+let funcaoAtualDG = 'dps';
+
+const bancoDungeons = [
+  {
+    nome: "🐘 Vajramon",
+    dps: { hp: 45000, ct: 200, ht: 7000, nota: "Requisito Overall (Serve para DPS/Geral)." },
+    tank: null
+  },
+  {
+    nome: "❄️ Vikamon",
+    dps: { hp: 45000, ct: 200, ht: 7000, nota: "Requisito Overall (Serve para DPS/Geral)." },
+    tank: null
+  },
+  {
+    nome: "⚔️ Berserk Arena",
+    dps: { hp: 40000, ct: 200, ht: 11000, nota: "" },
+    tank: { hp: 78000, de: 20000, bl: 100, nota: "" }
+  },
+  {
+    nome: "🛍️ Shopping Mall",
+    dps: { hp: 60000, ct: 200, ht: 7500, nota: "Requisito Overall • Exige também: CD 350%+ e BL 100%." },
+    tank: { hp: 60000, de: 0, bl: 100, nota: "Requisito Overall • Exige também: CT 200%+, HT 7.5k+ e CD 350%+." }
+  },
+  {
+    nome: "🎡 Neverland",
+    dps: { hp: 65000, ct: 200, ht: 10000, nota: "Exige também: CD 350% e BL 100%." },
+    tank: null
+  },
+  {
+    nome: "🔥 Burning Battlefield",
+    dps: { hp: 80000, ct: 150, ht: 12000, nota: "" },
+    tank: { hp: 120000, de: 25000, bl: 0, nota: "BL não especificado." }
+  },
+  {
+    nome: "⚔️ Chaotic Battlefield",
+    dps: { hp: 80000, ct: 190, ht: 11500, nota: "" },
+    tank: { hp: 120000, de: 25000, bl: 0, nota: "BL não especificado." }
+  },
+  {
+    nome: "🏟️ Final Battlefield",
+    dps: { hp: 80000, ct: 190, ht: 11500, nota: "" },
+    tank: { hp: 120000, de: 25000, bl: 0, nota: "BL não especificado." }
+  },
+  {
+    nome: "👹 Bagramon Domain",
+    dps: { hp: 80000, ct: 265, ht: 10000, nota: "Exige também: CD 350%+." },
+    tank: { hp: 100000, de: 20000, bl: 100, nota: "" }
+  },
+  {
+    nome: "🦠 Venom Hard",
+    dps: { hp: 85000, ct: 310, ht: 13000, nota: "" },
+    tank: { hp: 120000, de: 25000, bl: 130, nota: "Exige também: EV 190%." }
+  },
+  {
+    nome: "🤝 Friendship",
+    dps: { hp: 85000, ct: 310, ht: 13000, nota: "" },
+    tank: { hp: 120000, de: 25000, bl: 130, nota: "Exige também: EV 190%." }
+  },
+  {
+    nome: "🛡️ Bravery",
+    dps: { hp: 85000, ct: 310, ht: 13000, nota: "" },
+    tank: { hp: 120000, de: 25000, bl: 130, nota: "Exige também: EV 190%." }
+  },
+  {
+    nome: "🌊 Marine Dungeon",
+    dps: { hp: 80000, ct: 330, ht: 14500, nota: "" },
+    tank: { hp: 150000, de: 30000, bl: 165, nota: "Exige também: EV 110%." }
+  },
+  {
+    nome: "🏰 Royal Base Hard",
+    dps: { hp: 80000, ct: 330, ht: 14500, nota: "" },
+    tank: { hp: 150000, de: 30000, bl: 165, nota: "Exige também: EV 110%." }
+  },
+  {
+    nome: "🃏 Puppetmon",
+    dps: { hp: 90000, ct: 330, ht: 14500, nota: "" },
+    tank: { hp: 170000, de: 40000, bl: 175, nota: "Exige também: EV 205.5%." }
+  },
+  {
+    nome: "🤖 MugenDramon",
+    dps: { hp: 100000, ct: 350, ht: 14500, nota: "" },
+    tank: { hp: 170000, de: 40000, bl: 185, nota: "Exige também: EV 205.5%." }
+  },
+  {
+    nome: "🏛️ Four Pillars",
+    dps: { hp: 105000, ct: 350, ht: 14800, nota: "Support: HP 115k+, DS 34k+, CT 350%+, HT 14.8k+." },
+    tank: { hp: 170000, de: 40000, bl: 205, nota: "Exige também: EV 205.5%+." }
+  },
+  {
+    nome: "🎭 Piedmon",
+    dps: { hp: 105000, ct: 350, ht: 14800, nota: "Support: HP 115k+, DS 34k+, CT 350%, HT 14.8k+." },
+    tank: { hp: 200000, de: 45000, bl: 190, nota: "Exige também: EV 130%+." }
+  },
+  {
+    nome: "🌳 Odaiba Park",
+    dps: { hp: 105000, ct: 350, ht: 15000, nota: "" },
+    tank: { hp: 230000, de: 45000, bl: 190, nota: "Atenção: 210% BL real necessário após debuff • EV 130%." }
+  },
+  {
+    nome: "🌌 Void Space",
+    dps: { hp: 105000, ct: 350, ht: 15500, nota: "Support: HP 105k+, DS 34k+, CT 350%+, HT 15.5k+." },
+    tank: { hp: 230000, de: 60000, bl: 215, nota: "Exige também: EV 135.5%+." }
+  },
+  {
+    nome: "🐉 Fanglongmon (Hard)",
+    dps: { hp: 105000, ct: 350, ht: 16300, nota: "" },
+    tank: { hp: 240000, de: 60000, bl: 229, nota: "Exige também: EV 135%+." }
+  },
+  {
+    nome: "🌌 Void Space [Hard]",
+    dps: { hp: 125500, ct: 0, ht: 18000, nota: "CT não especificado." },
+    tank: { hp: 310000, de: 88000, bl: 240, nota: "EV não especificado." }
+  },
+  {
+    nome: "🌿 Greenzone [EX]",
+    dps: null,
+    tank: { hp: 1800000, de: 30000, bl: 140, nota: "Exclusivo: Tank (Shoutmon DX Only)." }
+  },
+  {
+    nome: "🌀 Mysterious Underground Dungeon [TA]",
+    dps: null,
+    tank: { hp: 1800000, de: 30000, bl: 140, nota: "Requisito Overall (Tank/TA) • EV não especificado." }
+  },
+    {
+    nome: "🐾 Holy Beast Dungeon [Solo] (EDG / ZDG / BDG / QDG)",
+    dps: { hp: 40000, ct: 220, ht: 3000, nota: "Modo Solo (Sem Ticket • Drops Character Bound) • Exige também: CD 350% e BL 100%." },
+    tank: { hp: 40000, de: 0, bl: 100, nota: "Modo Solo (Sem Ticket • Drops Character Bound) • Exige também: HT 3k." }
+  },
+  {
+    nome: "🗼 Tokyo Dungeons [Solo] (Tokyo Tower & Fuji TV)",
+    dps: { hp: 40000, ct: 220, ht: 4500, nota: "Modo Solo (Sem Ticket • Drops Character Bound) • Exige também: CD 350% e BL 100%." },
+    tank: { hp: 40000, de: 0, bl: 100, nota: "Modo Solo (Sem Ticket • Drops Character Bound) • Exige também: HT 4.5k." }
+  },
+  {
+    nome: "🏙️ Shinjuku Dungeons [Solo] (Venomous Vortex, Vajramon & Vikaralamon)",
+    dps: { hp: 40000, ct: 220, ht: 7000, nota: "Modo Solo (Sem Ticket • Drops Character Bound) • Exige também: CD 350% e BL 100%." },
+    tank: { hp: 40000, de: 0, bl: 100, nota: "Modo Solo (Sem Ticket • Drops Character Bound) • Exige também: HT 7k." }
+  },
+
+];
+
+window.mudarFuncaoDG = function(role) {
+  funcaoAtualDG = role;
+  const btnDps = document.getElementById('btn-role-dps');
+  const btnTank = document.getElementById('btn-role-tank');
+  const l1 = document.getElementById('label-stat-1');
+  const l2 = document.getElementById('label-stat-2');
+  const l3 = document.getElementById('label-stat-3');
+  const i1 = document.getElementById('input-stat-1');
+  const i2 = document.getElementById('input-stat-2');
+  const i3 = document.getElementById('input-stat-3');
+
+  document.getElementById('resultado-dungeons').innerHTML = '';
+  i1.value = '';
+  i2.value = '';
+  i3.value = '';
+
+  if (role === 'dps') {
+    btnDps.className = 'btn-funcao ativo-dps';
+    btnTank.className = 'btn-funcao';
+    l1.textContent = '❤️ Seu HP Máximo';
+    l2.textContent = '💥 Seu Critical Rate (CT %)';
+    l3.textContent = '🎯 Seu Hit Rate (HT)';
+    i1.placeholder = 'Ex: 105000';
+    i2.placeholder = 'Ex: 350';
+    i3.placeholder = 'Ex: 15500';
+  } else {
+    btnTank.className = 'btn-funcao ativo-tank';
+    btnDps.className = 'btn-funcao';
+    l1.textContent = '❤️ Seu HP Máximo';
+    l2.textContent = '🛡️ Sua Defesa (DE)';
+    l3.textContent = '🧱 Seu Block (BL %)';
+    i1.placeholder = 'Ex: 230000';
+    i2.placeholder = 'Ex: 45000';
+    i3.placeholder = 'Ex: 190';
+  }
+};
+
+// Converte textos como "120k", "14,5k", "1.8m" ou "350%" em números reais
+function converterValorStatus(valorTexto) {
+  if (!valorTexto) return 0;
+  let limpo = valorTexto.toString().trim().toLowerCase().replace(',', '.').replace('%', '');
+  
+  if (limpo.endsWith('k')) {
+    return (parseFloat(limpo.slice(0, -1)) || 0) * 1000;
+  }
+  if (limpo.endsWith('m')) {
+    return (parseFloat(limpo.slice(0, -1)) || 0) * 1000000;
+  }
+  return parseFloat(limpo) || 0;
+}
+
+window.verificarDungeons = function() {
+  const s1 = converterValorStatus(document.getElementById('input-stat-1').value);
+  const s2 = converterValorStatus(document.getElementById('input-stat-2').value);
+  const s3 = converterValorStatus(document.getElementById('input-stat-3').value);
+  const containerRes = document.getElementById('resultado-dungeons');
+  
+  // ... (o restante da função verificarDungeons continua exatamente igual!)
+
+
+  if (s1 === 0 && s2 === 0 && s3 === 0) {
+    containerRes.innerHTML = `<p style="color: #fbbf24; text-align: center;">⚠️ Preencha seus status acima para verificar as dungeons.</p>`;
+    return;
+  }
+
+  const liberadas = bancoDungeons.filter(dg => {
+    if (funcaoAtualDG === 'dps') {
+      if (!dg.dps) return false;
+      return s1 >= dg.dps.hp && s2 >= dg.dps.ct && s3 >= dg.dps.ht;
+    } else {
+      if (!dg.tank) return false;
+      return s1 >= dg.tank.hp && s2 >= dg.tank.de && s3 >= dg.tank.bl;
+    }
+  });
+
+  if (liberadas.length === 0) {
+    containerRes.innerHTML = `
+      <div style="background: rgba(244, 63, 94, 0.12); border: 1px solid #f43f5e; padding: 18px; border-radius: 8px; text-align: center;">
+        <strong style="color: #fb7185;">Nenhuma dungeon recomendada atingida ainda com esses status.</strong>
+        <p style="margin: 6px 0 0 0; font-size: 0.9rem; color: #cbd5e1;">Confira se digitou os valores completos (ex: 80000 para 80k) ou fortaleça seus selos e acessórios!</p>
+      </div>
+    `;
+    return;
+  }
+
+  let cardsHtml = liberadas.map(dg => {
+    const info = funcaoAtualDG === 'dps' ? dg.dps : dg.tank;
+    const notaHtml = info.nota ? `<div class="dg-nota-extra">⚠️ ${info.nota}</div>` : '';
+    return `
+      <div class="dg-card-ok">
+        <div>
+          <span style="font-size: 0.72rem; text-transform: uppercase; color: #34d399; font-weight: bold;">✔ Status Compatíveis</span>
+          <h4 style="margin: 6px 0 0 0; color: #f8fafc; font-size: 1.05rem;">${dg.nome}</h4>
+        </div>
+        ${notaHtml}
+      </div>
+    `;
+  }).join('');
+
+  containerRes.innerHTML = `
+    <h3 style="margin-top: 0; color: #34d399;">✅ Você pode fazer ${liberadas.length} Dungeon(s) como ${funcaoAtualDG.toUpperCase()}:</h3>
+    <div class="lista-dgs-liberadas">${cardsHtml}</div>
+  `;
+};
+
 
