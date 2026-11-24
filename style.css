@@ -370,6 +370,25 @@ h1 {
   font-weight: 600;
 }
 
+/* Cenário de fundo e detalhes da seção Ferramentas */
+.cenario-ferramentas {
+  z-index: -1;
+  opacity: 0;
+  background: radial-gradient(circle at 70% 50%, rgba(245, 158, 11, 0.22) 0%, rgba(120, 53, 15, 0.3) 50%, #090602 90%);
+}
+
+.card.gold { border-color: rgba(251, 191, 36, 0.35); }
+.card.gold:hover { background: rgba(251, 191, 36, 0.14); }
+.card.gold .tag-atributo { color: #fbbf24; }
+
+.secao-destino.gold-border {
+  border-color: rgba(251, 191, 36, 0.25);
+  border-left: 4px solid #f59e0b;
+}
+
+.item-card.tool:hover { border-color: #fbbf24; }
+.tag-tool { background: rgba(251, 191, 36, 0.2); color: #fbbf24; }
+
 
 /* Banner largo no topo da página artigo.html */
 .artigo-banner {

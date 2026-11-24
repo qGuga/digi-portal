@@ -8,7 +8,44 @@
 </head>
 <body>
 
-  <!-- CENÁRIO 0: INTRO (PORTAL DIGITAL) -->
+
+  <div class="camada-visual cenario-ferramentas" id="cenario-3">
+    <svg class="arte-svg" viewBox="0 0 500 500" fill="none">
+      <defs>
+        <radialGradient id="auraMilagre" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.35"/>
+          <stop offset="55%" stop-color="#f59e0b" stop-opacity="0.1"/>
+          <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+
+      <!-- Aura Dourada Expansiva -->
+      <circle cx="250" cy="250" r="220" fill="url(#auraMilagre)"/>
+      <circle cx="250" cy="250" r="155" stroke="#fbbf24" stroke-width="2" class="radar-onda"/>
+
+      <!-- Anéis de Energia Dourada Giratórios -->
+      <g class="girar-horario">
+        <circle cx="250" cy="250" r="215" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="24 10 4 10" opacity="0.65"/>
+        <circle cx="250" cy="250" r="195" stroke="#fde047" stroke-width="1" stroke-dasharray="50 20" opacity="0.45"/>
+      </g>
+
+      <g class="girar-anti">
+        <!-- 8 Pontas de Luz Radiante -->
+        <polygon points="250,55 262,238 445,250 262,262 250,445 238,262 55,250 238,238" stroke="#fbbf24" stroke-width="1" fill="rgba(251, 191, 36, 0.06)"/>
+      </g>
+
+      <!-- Núcleo: Brasão dos Milagres (Losango Duplo Sagrado) -->
+      <g class="pulsar">
+        <!-- Contorno Externo do Brasão -->
+        <polygon points="250,125 335,250 250,375 165,250" stroke="#fde047" stroke-width="3" fill="rgba(245, 158, 11, 0.14)"/>
+        <!-- Contorno Interno do Brasão -->
+        <polygon points="250,155 310,250 250,345 190,250" stroke="#ffffff" stroke-width="1.8" fill="rgba(253, 224, 71, 0.18)"/>
+        <!-- Detalhe Central de Energia -->
+        <polygon points="250,195 280,250 250,305 220,250" fill="#fde047" opacity="0.85"/>
+      </g>
+    </svg>
+  </div>
+
   <div class="camada-visual cenario-intro" id="cenario-0">
     <svg class="arte-svg" viewBox="0 0 500 500" fill="none">
       <g class="girar-horario">
@@ -68,6 +105,11 @@
         <h3 style="margin: 0 0 8px 0;">🔥 Patch Notes & Eventos</h3>
         <p style="margin: 0; color: #94a3b8; font-size: 0.9rem;">Notas de atualização, balanceamentos, novos sistemas e eventos ativos.</p>
       </a>
+      <a href="#ferramentas" class="card gold link-suave">
+        <span class="tag-atributo">// SIMULADORES & UTILIDADES</span>
+        <h3 style="margin: 0 0 8px 0;">🛠️ Ferramentas</h3>
+        <p style="margin: 0; color: #94a3b8; font-size: 0.9rem;">Calculadoras de farm, quantidade de materiais para craft e simuladores.</p>
+      </a>
     </div>
   </div>
 
@@ -89,6 +131,14 @@
     <h2>🔥 Patch Notes & Atualizações</h2>
     <div id="grade-patches" class="grade-itens" style="margin-top: 25px;"></div>
   </div>
+
+  <div id="ferramentas" class="secao-destino gold-border">
+    <span class="tag-atributo" style="color: #fbbf24;">// CÁLCULO DE RECURSOS</span>
+    <h2>🛠️ Ferramentas & Simuladores de Farm</h2>
+    <p style="color: #94a3b8; margin-top: -10px;">Selecione um simulador abaixo para calcular exatamente quantos itens você precisa farmar.</p>
+    <div id="grade-ferramentas" class="grade-itens" style="margin-top: 25px;"></div>
+  </div>
+
 
   <div id="modal-leitor" class="modal-overlay">
     <div class="modal-caixa">

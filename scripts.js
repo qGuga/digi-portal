@@ -62,6 +62,19 @@ const listaPatches = [
   }
 ];
 
+const listaFerramentas = [
+  {
+    categoria: "Simulador • True Vice",
+    data: "Calculadora Interativa",
+    titulo: "Calculadora de True Digivice (Tokyo Tokens)",
+    imagem: "img/coragem.png", // Troque pela imagem do True Vice
+    resumo: "Informe quantos materiais e Tokyo Tokens você já possui para calcular exatamente o que falta farmar.",
+    arquivo: "posts/calc-true-vice.html"
+  }
+];
+
+
+
 // ========================================================
 // 3. MOTOR DO SITE (NÃO PRECISA MEXER DAQUI PARA BAIXO)
 // ========================================================
@@ -72,12 +85,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const params = new URLSearchParams(window.location.search);
     const tipo = params.get('tipo');
     const id = parseInt(params.get('id'), 10);
-    const item = tipo === 'patch' ? listaPatches[id] : guiasProgressao[id];
+    const item = tipo === 'patch' ? listaPatches[id] : (tipo === 'tool' ? listaFerramentas[id] : guiasProgressao[id]);
 
     if (item) {
       document.title = `${item.titulo} • Digi-Portal`;
-      const tagTexto = tipo === 'patch' ? item.versao : item.labelFase;
-      const tagClasse = tipo === 'patch' ? 'tag-patch' : item.classeTag;
+      const tagTexto = tipo === 'patch' ? item.versao : (tipo === 'tool' ? item.categoria : item.labelFase);
+      const tagClasse = tipo === 'patch' ? 'tag-patch' : (tipo === 'tool' ? 'tag-tool' : item.classeTag);
       const bannerHtml = item.imagem ? `<img src="${item.imagem}" alt="${item.titulo}" class="artigo-banner">` : '';
 
       const exibirConteudo = (htmlTexto) => {
@@ -167,6 +180,32 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  const gradeFerramentas = document.getElementById('grade-ferramentas');
+  function renderizarFerramentas() {
+    if (!gradeFerramentas) return;
+    gradeFerramentas.innerHTML = '';
+    listaFerramentas.forEach((tool, index) => {
+      const card = document.createElement('a');
+      card.href = `artigo.html?tipo=tool&id=${index}`;
+      card.className = 'item-card tool';
+      card.style.textDecoration = 'none';
+      card.style.color = 'inherit';
+      const thumbHtml = tool.imagem ? `<img src="${tool.imagem}" alt="${tool.titulo}" class="card-thumb">` : '';
+
+      card.innerHTML = `
+        <div>
+          ${thumbHtml}
+          <span class="badge-tag tag-tool">${tool.categoria}</span>
+          <h3 style="margin: 0 0 8px 0; color: #f8fafc;">${tool.titulo}</h3>
+          <p style="margin: 0; font-size: 0.9rem; color: #94a3b8;">${tool.resumo}</p>
+        </div>
+        <span style="margin-top: 16px; font-size: 0.85rem; color: #fbbf24; font-weight: bold;">Abrir simulador →</span>
+      `;
+      gradeFerramentas.appendChild(card);
+    });
+  }
+  renderizarFerramentas();
+
   document.querySelectorAll('.aba-btn').forEach(btn => {
     btn.onclick = () => {
       document.querySelectorAll('.aba-btn').forEach(b => b.classList.remove('ativa'));
@@ -181,16 +220,67 @@ document.addEventListener("DOMContentLoaded", () => {
   renderizarPatches();
 
   // Crossfade de fundo e deslize suave
-  const c0 = document.getElementById('cenario-0'), c1 = document.getElementById('cenario-1'), c2 = document.getElementById('cenario-2');
-  const secProg = document.getElementById('progressao'), secPatch = document.getElementById('patch-notes');
+  const c0 = document.getElementById('cenario-0'), c1 = document.getElementById('cenario-1'), c2 = document.getElementById('cenario-2'), c3 = document.getElementById('cenario-3');
+  const secProg = document.getElementById('progressao'), secPatch = document.getElementById('patch-notes'), secTools = document.getElementById('ferramentas');
 
   function atualizarCenario() {
-    if (!c0 || !c1 || !c2 || !secProg || !secPatch) return;
+    if (!c0 || !c1 || !c2 || !c3 || !secProg || !secPatch || !secTools) return;
     const s = window.scrollY, h = window.innerHeight;
-    if (s < secProg.offsetTop - h * 0.55) { c0.style.opacity = 1; c1.style.opacity = 0; c2.style.opacity = 0; }
-    else if (s < secPatch.offsetTop - h * 0.55) { c0.style.opacity = 0; c1.style.opacity = 1; c2.style.opacity = 0; }
-    else { c0.style.opacity = 0; c1.style.opacity = 0; c2.style.opacity = 1; }
+    if (s < secProg.offsetTop - h * 0.55) {
+      c0.style.opacity = 1; c1.style.opacity = 0; c2.style.opacity = 0; c3.style.opacity = 0;
+    } else if (s < secPatch.offsetTop - h * 0.55) {
+      c0.style.opacity = 0; c1.style.opacity = 1; c2.style.opacity = 0; c3.style.opacity = 0;
+    } else if (s < secTools.offsetTop - h * 0.55) {
+      c0.style.opacity = 0; c1.style.opacity = 0; c2.style.opacity = 1; c3.style.opacity = 0;
+    } else {
+      c0.style.opacity = 0; c1.style.opacity = 0; c2.style.opacity = 0; c3.style.opacity = 1;
+    }
   }
+
+  // FUNÇÕES DA CALCULADORA DE TRUE DIGIVICE
+// ========================================================
+function calcularVice() {
+  const linhas = document.querySelectorAll('#tabela-materiais tr');
+  if (!linhas.length) return;
+
+  let tokensNecessariosItens = 0;
+
+  linhas.forEach(linha => {
+    const req = parseInt(linha.dataset.req, 10);
+    const custo = parseInt(linha.dataset.custo, 10);
+    const input = linha.querySelector('.item-qtd');
+    let tenho = parseInt(input.value, 10) || 0;
+
+    if (tenho < 0) { tenho = 0; input.value = 0; }
+
+    const falta = Math.max(req - tenho, 0);
+    const tokensItem = falta * custo;
+    tokensNecessariosItens += tokensItem;
+
+    const colFalta = linha.querySelector('.col-falta');
+    const colTokens = linha.querySelector('.col-tokens');
+
+    colFalta.textContent = falta === 0 ? '✔ OK' : falta;
+    colFalta.style.color = falta === 0 ? '#00ff88' : '#f8fafc';
+    colTokens.textContent = tokensItem;
+  });
+
+  const tokensNaBag = Math.max(parseInt(document.getElementById('tokens-atuais').value, 10) || 0, 0);
+  const tokensParaFarmar = Math.max(tokensNecessariosItens - tokensNaBag, 0);
+
+  document.getElementById('res-tokens-itens').textContent = tokensNecessariosItens;
+  document.getElementById('res-tokens-farmar').textContent = tokensParaFarmar === 0 ? 'Pronto! 🎉' : `${tokensParaFarmar} Tokens`;
+
+  const progresso = Math.min(Math.round(((373 - tokensParaFarmar) / 373) * 100), 100);
+  document.getElementById('texto-porcentagem').textContent = `${progresso}%`;
+  document.getElementById('barra-progresso').style.width = `${progresso}%`;
+}
+
+function zerarCalcVice() {
+  document.getElementById('tokens-atuais').value = 0;
+  document.querySelectorAll('#tabela-materiais .item-qtd').forEach(input => input.value = 0);
+  calcularVice();
+}
 
   window.addEventListener('scroll', atualizarCenario);
   atualizarCenario();
@@ -212,3 +302,61 @@ document.addEventListener("DOMContentLoaded", () => {
     l.addEventListener('click', e => { e.preventDefault(); const s = document.querySelector(l.getAttribute('href')); if (s) deslizarPara(s, 1200); });
   });
 });
+
+// ========================================================
+// FUNÇÕES GLOBAIS DA CALCULADORA DE TRUE DIGIVICE
+// ========================================================
+window.calcularVice = function() {
+  const linhas = document.querySelectorAll('#tabela-materiais tr');
+  if (!linhas.length) return;
+
+  let tokensNecessariosItens = 0;
+
+  linhas.forEach(linha => {
+    const req = parseInt(linha.getAttribute('data-req'), 10);
+    const custo = parseInt(linha.getAttribute('data-custo'), 10);
+    const input = linha.querySelector('.item-qtd');
+    let tenho = parseInt(input.value, 10) || 0;
+
+    if (tenho < 0) { tenho = 0; input.value = 0; }
+
+    const falta = Math.max(req - tenho, 0);
+    const tokensItem = falta * custo;
+    tokensNecessariosItens += tokensItem;
+
+    const colFalta = linha.querySelector('.col-falta');
+    const colTokens = linha.querySelector('.col-tokens');
+
+    if (colFalta) {
+      colFalta.textContent = falta === 0 ? '✔ OK' : falta;
+      colFalta.style.color = falta === 0 ? '#00ff88' : '#f8fafc';
+    }
+    if (colTokens) {
+      colTokens.textContent = tokensItem;
+    }
+  });
+
+  const inputBag = document.getElementById('tokens-atuais');
+  const tokensNaBag = inputBag ? Math.max(parseInt(inputBag.value, 10) || 0, 0) : 0;
+  const tokensParaFarmar = Math.max(tokensNecessariosItens - tokensNaBag, 0);
+
+  const elItens = document.getElementById('res-tokens-itens');
+  const elFarmar = document.getElementById('res-tokens-farmar');
+  const elPorcento = document.getElementById('texto-porcentagem');
+  const elBarra = document.getElementById('barra-progresso');
+
+  if (elItens) elItens.textContent = tokensNecessariosItens;
+  if (elFarmar) elFarmar.textContent = tokensParaFarmar === 0 ? 'Pronto! 🎉' : `${tokensParaFarmar} Tokens`;
+
+  const progresso = Math.min(Math.round(((373 - tokensParaFarmar) / 373) * 100), 100);
+  if (elPorcento) elPorcento.textContent = `${progresso}%`;
+  if (elBarra) elBarra.style.width = `${progresso}%`;
+};
+
+window.zerarCalcVice = function() {
+  const inputBag = document.getElementById('tokens-atuais');
+  if (inputBag) inputBag.value = 0;
+  document.querySelectorAll('#tabela-materiais .item-qtd').forEach(input => input.value = 0);
+  window.calcularVice();
+};
+
