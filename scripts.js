@@ -51,7 +51,30 @@ const guiasProgressao = [
     imagem: "img/colo.jpg",
     resumo: "Preparação para Tanks e DPS, sequência completa de Stack/Split (Millenniummon), círculos de dano e tabela de HP do Examon X e Ordinemon.",
     arquivo: "posts/colo-extreme.html"
+  },
+  {
+    titulo: "Guia de Raid: Berserk Arena (Alter-S & Zwart) — Mecânicas",
+    fase: "mid",
+    labelFase: "Mid Game",
+    classeTag: "tag-mid",
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/zerk.png", // Troque pela imagem/print da Berserk Arena
+    resumo: "Requisitos de Tank e DPS, escolha de Digimons (Shoutmon DX / Icymagnamon), travas de HP (80/60/40/20%) e tabela completa de mecânicas.",
+    arquivo: "posts/berserk.html"
+  },
+
+  {
+    titulo: "Guia de Raid: Green Zone [EX] (Bagramon) — Mecânicas",
+    fase: "mid",
+    labelFase: "Mid Game",
+    classeTag: "tag-mid",
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/bextreme.png", // Troque pela imagem/print da Green Zone EX
+    resumo: "Passo a passo das mecânicas do Bagramon: Troopmon, veneno, círculo de sobrevivência (insta-kill), debuff de cura e gestão de Tank Busters.",
+    arquivo: "posts/greenzone-ex.html"
   }
+
+
 ];
 
 // ========================================================
