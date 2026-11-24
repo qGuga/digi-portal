@@ -48,7 +48,7 @@ const guiasProgressao = [
 
   {
     titulo: "Guia de Raid: Coliseu Extreme (R1 ao R6) — Mecânicas",
-    fase: "end",
+    fase: "mid",
     labelFase: "Mid Game",
     classeTag: "tag-mid",
     data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
