@@ -72,7 +72,199 @@ const guiasProgressao = [
     imagem: "img/bextreme.png", // Troque pela imagem/print da Green Zone EX
     resumo: "Passo a passo das mecânicas do Bagramon: Troopmon, veneno, círculo de sobrevivência (insta-kill), debuff de cura e gestão de Tank Busters.",
     arquivo: "posts/greenzone-ex.html"
+  },
+  {
+    titulo: "Guia de Raid: Chaotic Battlefield (Beelzemon) — Skip Run",
+    fase: "mid",
+    labelFase: "Mid Game",
+    classeTag: "tag-mid",
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/chaotic.png", // Troque pela imagem/print do Beelzemon / Chaotic Battlefield
+    resumo: "Estratégia de Skip Run com 3 OX (All Delete), timing dos meteoros, mecânica crítica dos Impmons (40%) e finalização aos 11% de HP.",
+    arquivo: "posts/chaotic-battlefield.html"
+  },
+    {
+    titulo: "Guia de Raid: Burning Battlefield (Megidramon) — Mecânicas",
+    fase: "mid",
+    labelFase: "Mid Game",
+    classeTag: "tag-mid",
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/burning.png", // Troque pela imagem/print do Megidramon / Burning Battlefield
+    resumo: "Tabela completa de HP (89% ao 10%), invocação de Towers, círculos verdes de sobrevivência (30%) e DPS check final de 1 minuto.",
+    arquivo: "posts/burning-battlefield.html"
+  },
+  {
+    titulo: "Guia de Raid: Final Battlefield — Common Skip Run",
+    fase: "mid",
+    labelFase: "Mid Game",
+    classeTag: "tag-mid",
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/final.png", // Troque pela imagem/print da Final Battlefield
+    resumo: "Estratégia de Skip Run: rotações de 63%–60%, controle de HP do Raguelmon (não matar!), minions aos 48% e ordem dos Devas (11%–9%).",
+    arquivo: "posts/final-battlefield.html"
+  },
+  {
+    titulo: "Guia de Raid: Bagramon Domain — Mecânicas",
+    fase: "mid", // Se preferir na aba End Game, troque para "end"
+    labelFase: "Mid Game", // Troque para "End Game" se mudar acima
+    classeTag: "tag-mid", // Troque para "tag-end" se mudar acima
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/bagradg.png", // Troque pela imagem/print da Bagramon Domain
+    resumo: "Mecânicas do 1º Boss (uso do item pelo Top DPS), Lilith aos 50% de HP e fase de invulnerabilidade aos 30% (sem AOE!).",
+    arquivo: "posts/bagramon-domain.html"
+  },
+  {
+    titulo: "Guia de Raid: Shopping Mall (Mall Dungeon) — Mecânicas",
+    fase: "mid",
+    labelFase: "Mid Game",
+    classeTag: "tag-mid",
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/bloomdg.png", // Troque pela imagem/print da Shopping Mall
+    resumo: "Mecânicas de Meteors, Omae, círculos de sobrevivência aos 30% e 10% de HP e cálculo de dano acumulado do veneno (4k por tick).",
+    arquivo: "posts/shopping-mall.html"
+  },
+  {
+    titulo: "Guia de Raid: Neverland — Mecânicas & Status",
+    fase: "mid",
+    labelFase: "Mid Game",
+    classeTag: "tag-mid",
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/aeosdg.png", // Troque pela imagem/print da Neverland
+    resumo: "Recomendações de status (75k+ HP), como mitigar os 70k de dano do Omae, Small Circle aos 50% e DPS Check final.",
+    arquivo: "posts/neverland.html"
+  },
+  {
+    titulo: "Guia de Raid: Venomous Vortex [Hard] (Venom Vamdemon)",
+    fase: "mid",
+    labelFase: "Mid Game",
+    classeTag: "tag-mid",
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/venomhard.png", // Troque pela imagem/print do Venom Vamdemon
+    resumo: "Requisitos de SSS+ Vaccine e Tankers, timing do F3 aos 88% e 31% para pular mecânicas, variações de RNG (70%–39%) e DPS Check final.",
+    arquivo: "posts/venom-hard.html"
+  },
+  {
+    titulo: "Guia de Raid: Path of Bravery (WarGreymon) — Mecânicas",
+    fase: "mid",
+    labelFase: "Mid Game",
+    classeTag: "tag-mid",
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/bravedg.png", // Troque pela imagem/print da Path of Bravery
+    resumo: "Composição (Examon X / Fanglongmon Shin), janelas de F3 para skip (69%–62% e 29%–22%), Stacks de 70k e Huge Split Circles.",
+    arquivo: "posts/path-of-bravery.html"
+  },
+  {
+    titulo: "Guia de Raid: Path of Friendship (MetalGarurumon) — Mecânicas",
+    fase: "mid",
+    labelFase: "Mid Game",
+    classeTag: "tag-mid",
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/frienddg.png", // Troque pela imagem/print da Path of Friendship
+    resumo: "Requisitos de CT (300%+) e composição, debuffs de +20% dano recebido, parada obrigatória aos 60%–59% (Northern Impact) e meteoros finais.",
+    arquivo: "posts/path-of-friendship.html"
+  },
+  {
+    titulo: "Guia de Raid: Royal Base Hard (RBH) — Todas as Salas",
+    fase: "mid",
+    labelFase: "Mid Game",
+    classeTag: "tag-mid",
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/rbhdg.png", // Troque pela imagem/print da Royal Base Hard
+    resumo: "Roteiro completo das 3 salas: Room 1 (Exa/Jes/Gankoo), Room 2 (DexDorugoramon), Room 3 Parte 1 (Death-X-mon) e Parte 2 (AOA + sequência de F3).",
+    arquivo: "posts/royal-base-hard.html"
+  },
+
+  {
+    titulo: "Guia de Raid: Marine Dungeon — Common Skip Run",
+    fase: "end",
+    labelFase: "End Game",
+    classeTag: "tag-end",
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/marinedg.png", // Troque pela imagem/print da Marine Dungeon
+    resumo: "Recomendações de status (81k+ HP contra o Omae de 80k), títulos defensivos, skip aos 87%, mecânica de 1 pessoa por círculo (29%) e DPS Check final.",
+    arquivo: "posts/marine-dungeon.html"
+  },
+  {
+    titulo: "Guia de Raid: Puppet Dungeon (Puppetmon) — Mecânicas",
+    fase: "end",
+    labelFase: "End Game",
+    classeTag: "tag-end",
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/puppetdg.png", // Troque pela imagem/print da Puppet Dungeon
+    resumo: "Status recomendados (90k+ HP), mecânica dos Housemons nos cantos (70% e 30%), fase do Housemon Minion (50%) e Small Blue Circles finais.",
+    arquivo: "posts/puppet-dungeon.html"
+  },
+  {
+    titulo: "Guia de Raid: Mugen Dungeon (MugenDramon) — Mecânicas",
+    fase: "end",
+    labelFase: "End Game",
+    classeTag: "tag-end",
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/mugendg.png", // Troque pela imagem/print da Mugen Dungeon
+    resumo: "Mecânicas de Stack/Unstack, eliminação rápida dos 2 minions aos 49% (evitando Nuke Damage), Blue Circles (24%) e Max Power Burst aos 8%.",
+    arquivo: "posts/mugen-dungeon.html"
+  },
+  {
+    titulo: "Guia de Raid: Piedmon Dungeon — Mecânicas",
+    fase: "end",
+    labelFase: "End Game",
+    classeTag: "tag-end",
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/pieddg.png", // Troque pela imagem/print da Piedmon Dungeon
+    resumo: "Tabela completa (95% ao 10%), LadyDevimon (80%), truque de aggro nos Evilmons (60%–55%), Tank Buster de 120k (UVF) e sequência roxa final.",
+    arquivo: "posts/piedmon-dungeon.html"
+  },
+  {
+    titulo: "Guia de Raid: Four Pillars (4 Mestres das Trevas) — Mecânicas",
+    fase: "end",
+    labelFase: "End Game",
+    classeTag: "tag-end",
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/pillardg.png", // Troque pela imagem/print da Four Pillars
+    resumo: "Roteiro completo dos 4 bosses: MetalSeadramon, Puppetmon (Housemon), Mugendramon (hit de 100k + stack de dano) e Piedmon (UFM Shield e sequências).",
+    arquivo: "posts/four-pillars.html"
+  },
+  {
+    titulo: "Guia de Raid: Void Space (Apocalymon) — Mecânicas & Curas",
+    fase: "end",
+    labelFase: "End Game",
+    classeTag: "tag-end",
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/apodg.png", // Troque pela imagem/print da Void Space
+    resumo: "Composição (WarGreymon Shin + 3 OMM), rotações de Stack/Split aos 70% e 35%, ordem exata de cura (Choco/HoH/CC) e alerta de Feel the Pain invisível.",
+    arquivo: "posts/void-space.html"
+  },
+  {
+    titulo: "Guia de Raid: Odaiba Park (MetalGaruru, WarGrey & OMM)",
+    fase: "end",
+    labelFase: "End Game",
+    classeTag: "tag-end",
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/ommdg.png", // Troque pela imagem/print da Odaiba Park
+    resumo: "Roteiro dos 3 chefes: sequências do MetalGarurumon, posicionamento atrás da torre no WarGreymon, mecânica dos 3 itens no Ordine (50%) e DPS Check final do OMM.",
+    arquivo: "posts/odaiba-park.html"
+  },
+  {
+    titulo: "Guia de Raid: Abyss Floor 6 — Mecânicas & Sequências",
+    fase: "end",
+    labelFase: "End Game",
+    classeTag: "tag-end",
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/ordinelv6.png", // Troque pela imagem/print do Abyss Floor 6
+    resumo: "Tabela completa (95% ao 10%), ciclos de 30s (Big Split e HB Meteors), Omae de 76k aos 55% e sequência de Stack/Split aos 35%, 30% e 25%.",
+    arquivo: "posts/abyss-floor-6.html"
+  },
+  {
+    titulo: "Guia de Raid: Fanglongmon Hard (FDGH) — Mecânicas & Direções",
+    fase: "end",
+    labelFase: "End Game",
+    classeTag: "tag-end",
+    data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/fdghdg.png", // Troque pela imagem/print da FDGH
+    resumo: "Tabela de direções por cor (Oeste/Sul/Leste/Norte), posição dos 3 Devas (64%), ordem dos círculos aos 50% e regras de sobrevivência.",
+    arquivo: "posts/fdgh.html"
   }
+
 
 
 ];
