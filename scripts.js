@@ -43,6 +43,26 @@ const guiasProgressao = [
     arquivo: "posts/tokyo-area.html"
   },
   {
+    titulo: "Desbloqueando Spiral Mountain: Pré-requisitos & Áreas",
+    fase: "early",
+    labelFase: "Early Game",
+    classeTag: "tag-early",
+    data: "25 de Novembro, 2026 • Guia Oficial DMW",
+    imagem: "img/spiral.jpg", // Troque pela capa/print de Spiral Mountain
+    resumo: "Como liberar Spiral Mountain após Tokyo-Odaiba (VenomMyotismon), entrada via Gennai e aviso importante sobre a quest do Piedmon.",
+    arquivo: "posts/spiral-mountain.html"
+  },
+  {
+    titulo: "Tera Tours Guide: Spiral Tour, Forest Tour & Rota Sequencial",
+    fase: "early",
+    labelFase: "Early Game",
+    classeTag: "tag-early",
+    data: "25 de Novembro, 2026 • Guia de Farm DMW",
+    imagem: "img/moneyagu.png", // Troque pela imagem/print das Tours
+    resumo: "Guia completo de farm de Tera: horários e canais da Spiral Tour (3,6T), cronograma da Forest Tour (2,4T + Unique Data) e rota combinada (3,1T).",
+    arquivo: "posts/tera-tours.html"
+  },
+  {
     titulo: "Guia de Raid: Coliseu Extreme (R1 ao R6) — Mecânicas",
     fase: "mid",
     labelFase: "Mid Game",
@@ -176,9 +196,9 @@ const guiasProgressao = [
 
   {
     titulo: "Guia de Raid: Marine Dungeon — Common Skip Run",
-    fase: "end",
-    labelFase: "End Game",
-    classeTag: "tag-end",
+    fase: "mid",
+    labelFase: "Mid Game",
+    classeTag: "tag-mid",
     data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
     imagem: "img/marinedg.png", // Troque pela imagem/print da Marine Dungeon
     resumo: "Recomendações de status (81k+ HP contra o Omae de 80k), títulos defensivos, skip aos 87%, mecânica de 1 pessoa por círculo (29%) e DPS Check final.",
@@ -186,9 +206,9 @@ const guiasProgressao = [
   },
   {
     titulo: "Guia de Raid: Puppet Dungeon (Puppetmon) — Mecânicas",
-    fase: "end",
-    labelFase: "End Game",
-    classeTag: "tag-end",
+    fase: "mid",
+    labelFase: "Mid Game",
+    classeTag: "tag-mid",
     data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
     imagem: "img/puppetdg.png", // Troque pela imagem/print da Puppet Dungeon
     resumo: "Status recomendados (90k+ HP), mecânica dos Housemons nos cantos (70% e 30%), fase do Housemon Minion (50%) e Small Blue Circles finais.",
@@ -196,9 +216,9 @@ const guiasProgressao = [
   },
   {
     titulo: "Guia de Raid: Mugen Dungeon (MugenDramon) — Mecânicas",
-    fase: "end",
-    labelFase: "End Game",
-    classeTag: "tag-end",
+    fase: "mid",
+    labelFase: "Mid Game",
+    classeTag: "tag-mid",
     data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
     imagem: "img/mugendg.png", // Troque pela imagem/print da Mugen Dungeon
     resumo: "Mecânicas de Stack/Unstack, eliminação rápida dos 2 minions aos 49% (evitando Nuke Damage), Blue Circles (24%) e Max Power Burst aos 8%.",
@@ -206,9 +226,9 @@ const guiasProgressao = [
   },
   {
     titulo: "Guia de Raid: Piedmon Dungeon — Mecânicas",
-    fase: "end",
-    labelFase: "End Game",
-    classeTag: "tag-end",
+    fase: "mid",
+    labelFase: "Mid Game",
+    classeTag: "tag-mid",
     data: "24 de Novembro, 2026 • Guia de Dungeons DMW",
     imagem: "img/pieddg.png", // Troque pela imagem/print da Piedmon Dungeon
     resumo: "Tabela completa (95% ao 10%), LadyDevimon (80%), truque de aggro nos Evilmons (60%–55%), Tank Buster de 120k (UVF) e sequência roxa final.",
@@ -263,8 +283,7 @@ const guiasProgressao = [
     imagem: "img/fdghdg.png", // Troque pela imagem/print da FDGH
     resumo: "Tabela de direções por cor (Oeste/Sul/Leste/Norte), posição dos 3 Devas (64%), ordem dos círculos aos 50% e regras de sobrevivência.",
     arquivo: "posts/fdgh.html"
-  }
-
+  },
 
 
 ];
