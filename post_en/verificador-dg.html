@@ -1,0 +1,180 @@
+<p>Find out which server Dungeons you are already ready to run! Select your party role and enter your current stats (with buffs and gear active).</p>
+
+<style>
+  .dg-painel {
+    background: rgba(8, 15, 28, 0.9);
+    border: 1px solid rgba(0, 229, 255, 0.35);
+    border-radius: 10px;
+    padding: 26px;
+    margin: 24px 0;
+  }
+
+  .seletor-funcao {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .btn-funcao {
+    flex: 1;
+    min-width: 180px;
+    padding: 14px 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(15, 25, 45, 0.7);
+    color: #94a3b8;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: center;
+  }
+
+  .btn-funcao.ativo-dps {
+    background: rgba(244, 63, 94, 0.2);
+    border-color: #f43f5e;
+    color: #fb7185;
+    box-shadow: 0 0 15px rgba(244, 63, 94, 0.25);
+  }
+
+  .btn-funcao.ativo-tank {
+    background: rgba(56, 189, 248, 0.2);
+    border-color: #38bdf8;
+    color: #38bdf8;
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.25);
+  }
+
+  .grade-inputs-dg {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+
+  .campo-status {
+    background: rgba(2, 6, 12, 0.85);
+    border: 1px solid rgba(0, 229, 255, 0.25);
+    padding: 14px;
+    border-radius: 8px;
+  }
+
+  .campo-status label {
+    display: block;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    font-weight: bold;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .campo-status input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: #081020;
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: bold;
+    outline: none;
+  }
+
+  .campo-status input:focus {
+    border-color: #00e5ff;
+  }
+
+  .dica-formato {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin: 0 0 20px 0;
+  }
+
+  .btn-verificar {
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    border: none;
+    background: linear-gradient(90deg, #00e5ff, #0284c7);
+    color: #020408;
+    font-weight: bold;
+    font-size: 1.05rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: transform 0.2s ease;
+  }
+
+  .btn-verificar:hover {
+    transform: translateY(-2px);
+  }
+
+  .lista-dgs-liberadas {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+  }
+
+  .dg-card-ok {
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    border-left: 4px solid #10b981;
+    padding: 16px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .dg-nota-extra {
+    margin-top: 10px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.8rem;
+    color: #fbbf24;
+    line-height: 1.4;
+  }
+</style>
+
+<div class="dg-painel">
+  <div class="seletor-funcao">
+    <button type="button" id="btn-role-dps" class="btn-funcao ativo-dps" onclick="mudarFuncaoDG('dps')">
+      ⚔️ DPS (AA / SK)
+    </button>
+    <button type="button" id="btn-role-tank" class="btn-funcao" onclick="mudarFuncaoDG('tank')">
+      🛡️ TANK (TA / Support)
+    </button>
+  </div>
+
+  <div class="grade-inputs-dg">
+    <div class="campo-status">
+      <label id="label-stat-1">❤️ Max HP</label>
+      <input type="text" id="input-stat-1" placeholder="e.g., 105k or 105000">
+    </div>
+
+    <div class="campo-status">
+      <label id="label-stat-2">💥 Critical Rate (CT %)</label>
+      <input type="text" id="input-stat-2" placeholder="e.g., 350 or 350%">
+    </div>
+
+    <div class="campo-status">
+      <label id="label-stat-3">🎯 Hit Rate (HT)</label>
+      <input type="text" id="input-stat-3" placeholder="e.g., 15.5k or 15500">
+    </div>
+  </div>
+
+  <p class="dica-formato">💡 You can enter abbreviated values (e.g., <strong>80k</strong>, <strong>14.5k</strong>, <strong>1.8m</strong>) or the full number (e.g., <strong>80000</strong>).</p>
+  <p class="dica-formato">⚠️ For percentage stats, include the <strong>%</strong> symbol (e.g., <strong>350%</strong> for 350% CT).</p>
+
+  <button type="button" class="btn-verificar" onclick="verificarDungeons()">
+    🔍 Check Compatible Dungeons
+  </button>
+
+  <div id="resultado-dungeons" style="margin-top: 24px;"></div>
+
+  <div style="background: rgba(0, 229, 255, 0.08); border-left: 4px solid #00e5ff; padding: 14px 18px; border-radius: 6px; margin: 18px 0; font-size: 0.92rem; color: #cbd5e1;">
+    <strong>ℹ️ Note on Requirements:</strong> The minimum stat values used in this tool follow the <strong>official recommendations provided by the server Staff</strong>. They serve as a safe baseline to avoid missed hits (<em>Miss</em>) and ensure raid survivability.
+  </div>
+
+</div>

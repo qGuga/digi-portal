@@ -299,7 +299,7 @@ h1 {
 .btn-topo {
   position: fixed;
   bottom: 25px;
-  left: 25px; /* Mudado de right para left */
+  left: 25px;
   background: rgba(10, 18, 32, 0.85);
   border: 1px solid #00e5ff;
   color: #00e5ff;
@@ -309,7 +309,31 @@ h1 {
   font-weight: bold;
   font-size: 0.8rem;
   backdrop-filter: blur(8px);
+  z-index: 900;
 }
+
+/* Botão TOPO exclusivo para dentro dos posts (Modal) */
+.btn-topo-modal {
+  pointer-events: auto;
+  display: inline-block;
+  background: rgba(10, 18, 32, 0.95);
+  border: 1px solid #00e5ff;
+  color: #00e5ff;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 0.8rem;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.35);
+  transition: all 0.2s ease;
+}
+
+.btn-topo-modal:hover {
+  background: #00e5ff;
+  color: #020408;
+}
+
 
 /* Miniatura da imagem no card da página inicial (mantém proporção 16:9 sem cortar textos) */
 .card-thumb {
@@ -491,3 +515,4 @@ body {
   background-color: transparent !important;
   box-shadow: none !important;
 }
+

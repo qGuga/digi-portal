@@ -327,6 +327,20 @@ const listaFerramentas = [
 // 4. MOTOR DO SITE (CARREGAMENTO, FILTROS E SCROLL)
 // ========================================================
 document.addEventListener("DOMContentLoaded", () => {
+  function t(texto) {
+    if (localStorage.getItem('digilab_lang') === 'en' && typeof dicionarioExatoEN !== 'undefined') {
+      if (dicionarioExatoEN[texto]) return dicionarioExatoEN[texto];
+      let alterado = texto;
+      if (typeof substituicoesParciaisEN !== 'undefined') {
+        substituicoesParciaisEN.forEach(([regex, troca]) => {
+          alterado = alterado.replace(regex, troca);
+        });
+      }
+      return alterado;
+    }
+    return texto;
+  }
+
   const containerArtigo = document.getElementById('artigo-completo');
   if (containerArtigo) {
     const params = new URLSearchParams(window.location.search);
@@ -335,18 +349,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const item = tipo === 'patch' ? listaPatches[id] : (tipo === 'tool' ? listaFerramentas[id] : guiasProgressao[id]);
 
     if (item) {
-      document.title = `${item.titulo} • DigiLab-Hub`;
-      const tagTexto = tipo === 'patch' ? item.versao : (tipo === 'tool' ? item.categoria : item.labelFase);
+      const tituloTraduzido = t(item.titulo);
+      const dataTraduzida = t(item.data);
+      const tagTexto = t(tipo === 'patch' ? item.versao : (tipo === 'tool' ? item.categoria : item.labelFase));
+
+      document.title = `${tituloTraduzido} • DigiLab-Hub`;
       const tagClasse = tipo === 'patch' ? 'tag-patch' : (tipo === 'tool' ? 'tag-tool' : item.classeTag);
-      const bannerHtml = item.imagem ? `<img src="${item.imagem}" alt="${item.titulo}" class="artigo-banner">` : '';
+      const bannerHtml = item.imagem ? `<img src="${item.imagem}" alt="${tituloTraduzido}" class="artigo-banner">` : '';
 
       const exibirConteudo = (htmlTexto) => {
         containerArtigo.innerHTML = `
           ${bannerHtml}
           <span class="badge-tag ${tagClasse}">${tagTexto}</span>
-          <h1 style="font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 10px 0;">${item.titulo}</h1>
+          <h1 style="font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 10px 0;">${tituloTraduzido}</h1>
           <p style="color: #94a3b8; font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 30px;">
-            📅 ${item.data}
+            📅 ${dataTraduzida}
           </p>
           <div class="corpo-texto">${htmlTexto}</div>
         `;
@@ -355,7 +372,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (item.arquivo) {
         const idiomaAtual = localStorage.getItem('digilab_lang') || 'pt';
         const arquivoAlvo = idiomaAtual === 'en'
-          ? item.arquivo.replace('.html', '-en.html')
+          ? item.arquivo.replace('posts/', 'post_en/')
           : item.arquivo;
 
         fetch(arquivoAlvo)
@@ -364,10 +381,7 @@ document.addEventListener("DOMContentLoaded", () => {
             exibirConteudo(html);
           })
           .catch(() => exibirConteudo('<p>Erro ao carregar o arquivo. Verifique se o nome na pasta posts/ está correto.</p>'));
-
-      }
-
- else {
+      } else {
         exibirConteudo(item.conteudo || '');
       }
     } else {
@@ -381,13 +395,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const gradeFerramentas = document.getElementById('grade-ferramentas');
   const inputBusca = document.getElementById('busca-guia');
   let categoriaAtual = 'todos';
-
-  function t(texto) {
-    if (localStorage.getItem('digilab_lang') === 'en' && typeof dicionarioExatoEN !== 'undefined') {
-      return dicionarioExatoEN[texto] || texto;
-    }
-    return texto;
-  }
 
   function renderizarGuias() {
     if (!gradeGuias) return;
@@ -423,7 +430,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-
   function renderizarPatches() {
     if (!gradePatches) return;
     gradePatches.innerHTML = '';
@@ -451,7 +457,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-
   function renderizarFerramentas() {
     if (!gradeFerramentas) return;
     gradeFerramentas.innerHTML = '';
@@ -478,6 +483,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gradeFerramentas.appendChild(card);
     });
   }
+
 
 
   document.querySelectorAll('.aba-btn').forEach(btn => {
@@ -795,6 +801,10 @@ window.mudarFuncaoDG = function(role) {
   const i2 = document.getElementById('input-stat-2');
   const i3 = document.getElementById('input-stat-3');
 
+  // Detecta automaticamente se o post carregado é o post_en/verificador-dg.html
+  const btnVerificar = document.querySelector('.btn-verificar');
+  const isEN = btnVerificar && btnVerificar.textContent.includes('Check');
+
   document.getElementById('resultado-dungeons').innerHTML = '';
   i1.value = '';
   i2.value = '';
@@ -803,23 +813,24 @@ window.mudarFuncaoDG = function(role) {
   if (role === 'dps') {
     btnDps.className = 'btn-funcao ativo-dps';
     btnTank.className = 'btn-funcao';
-    l1.textContent = '❤️ Seu HP Máximo';
-    l2.textContent = '💥 Seu Critical Rate (CT %)';
-    l3.textContent = '🎯 Seu Hit Rate (HT)';
-    i1.placeholder = 'Ex: 105k ou 105000';
-    i2.placeholder = 'Ex: 350 ou 350%';
-    i3.placeholder = 'Ex: 15.5k ou 15500';
+    l1.textContent = isEN ? '❤️ Max HP' : '❤️ Seu HP Máximo';
+    l2.textContent = isEN ? '💥 Critical Rate (CT %)' : '💥 Seu Critical Rate (CT %)';
+    l3.textContent = isEN ? '🎯 Hit Rate (HT)' : '🎯 Seu Hit Rate (HT)';
+    i1.placeholder = isEN ? 'e.g., 105k or 105000' : 'Ex: 105k ou 105000';
+    i2.placeholder = isEN ? 'e.g., 350 or 350%' : 'Ex: 350 ou 350%';
+    i3.placeholder = isEN ? 'e.g., 15.5k or 15500' : 'Ex: 15.5k ou 15500';
   } else {
     btnTank.className = 'btn-funcao ativo-tank';
     btnDps.className = 'btn-funcao';
-    l1.textContent = '❤️ Seu HP Máximo';
-    l2.textContent = '🛡️ Sua Defesa (DE)';
-    l3.textContent = '🧱 Seu Block (BL %)';
-    i1.placeholder = 'Ex: 230k ou 230000';
-    i2.placeholder = 'Ex: 45k ou 45000';
-    i3.placeholder = 'Ex: 190 ou 190%';
+    l1.textContent = isEN ? '❤️ Max HP' : '❤️ Seu HP Máximo';
+    l2.textContent = isEN ? '🛡️ Defense (DE)' : '🛡️ Sua Defesa (DE)';
+    l3.textContent = isEN ? '🧱 Block (BL %)' : '🧱 Seu Block (BL %)';
+    i1.placeholder = isEN ? 'e.g., 230k or 230000' : 'Ex: 230k ou 230000';
+    i2.placeholder = isEN ? 'e.g., 45k or 45000' : 'Ex: 45k ou 45000';
+    i3.placeholder = isEN ? 'e.g., 190 or 190%' : 'Ex: 190 ou 190%';
   }
 };
+
 
 window.verificarDungeons = function() {
   const s1 = converterValorStatus(document.getElementById('input-stat-1').value);
@@ -978,7 +989,39 @@ const dicionarioExatoEN = {
   "⚠ Aviso Legal (Fan-Wiki / Fan-Site Não Oficial):": "⚠ Legal Disclaimer (Unofficial Fan-Wiki / Fan-Site):",
   "Este portal é um projeto independente feito de fã para fã, sem qualquer vínculo, patrocínio ou afiliação com a": "This portal is an independent fan-made project with no affiliation, sponsorship, or endorsement from",
   "Todas as marcas, nomes e imagens do jogo pertencem aos seus respectivos proprietários.": "All game trademarks, names, and images belong to their respective owners.",
-  "• Guias, ferramentas e layout desenvolvidos por": "• Guides, tools, and layout developed by"
+  "• Guias, ferramentas e layout desenvolvidos por": "• Guides, tools, and layout developed by",
+
+    // Resumos dos Cards na Página Inicial
+  "Roteiro organizado por etapas: evolução inicial, principais quests, acesso aos continentes, farm e preparação até o nível 120.": "Step-by-step roadmap: early evolution, main quests, continent unlocks, farming, and preparation up to level 120.",
+  "Como desbloquear o acesso a Shinjuku (West e East), ordem das main quests, D-Reaper e recompensas essenciais da saga.": "How to unlock Shinjuku (West & East), main quest order, D-Reaper, and essential saga rewards.",
+  "Requisitos após Shinjuku, como liberar a entrada da Digital Area, preparação de status e primeiros farms da região.": "Post-Shinjuku requirements, how to unlock Digital Area, stat preparation, and early regional farming.",
+  "Como liberar os mapas de Tokyo Area, sequência das main quests (Odaiba, Big Sight, Shibuya), raids locais e preparação de status.": "How to unlock Tokyo Area maps, main quest sequence (Odaiba, Big Sight, Shibuya), local raids, and stat prep.",
+  "Como liberar Spiral Mountain após Tokyo-Odaiba (VenomMyotismon), entrada via Gennai e aviso importante sobre a quest do Piedmon.": "How to unlock Spiral Mountain after Tokyo-Odaiba (VenomMyotismon), Gennai entrance, and important note on Piedmon quest.",
+  "Preparação para Tanks e DPS, sequência completa de Stack/Split (Millenniummon), círculos de dano e tabela de HP do Examon X e Ordinemon.": "Tank & DPS prep, full Stack/Split sequence (Millenniummon), damage circles, and Examon X / Ordinemon HP table.",
+  "Requisitos de Tank e DPS, escolha de Digimons (Shoutmon DX / Icymagnamon), travas de HP (80/60/40/20%) e tabela completa de mecânicas.": "Tank & DPS requirements, Digimon picks (Shoutmon DX / Icymagnamon), HP stops (80/60/40/20%), and full mechanics table.",
+  "Passo a passo das mecânicas do Bagramon: Troopmon, veneno, círculo de sobrevivência (insta-kill), debuff de cura e gestão de Tank Busters.": "Step-by-step Bagramon mechanics: Troopmon, poison, survival circle (insta-kill), heal block debuff, and Tank Buster management.",
+  "Estratégia de Skip Run com 3 OX (All Delete), timing dos meteoros, mecânica crítica dos Impmons (40%) e finalização aos 11% de HP.": "Skip Run strategy with 3 OX (All Delete), meteor timings, critical Impmon mechanic (40%), and 11% HP finish.",
+  "Tabela completa de HP (89% ao 10%), invocação de Towers, círculos verdes de sobrevivência (30%) e DPS check final de 1 minuto.": "Full HP table (89% to 10%), Tower spawns, green survival circles (30%), and 1-minute final DPS check.",
+  "Estratégia de Skip Run: rotações de 63%–60%, controle de HP do Raguelmon (não matar!), minions aos 48% e ordem dos Devas (11%–9%).": "Skip Run strategy: 63%–60% rotations, Raguelmon HP control (do not kill!), 48% minions, and Devas order (11%–9%).",
+  "Mecânicas do 1º Boss (uso do item pelo Top DPS), Lilith aos 50% de HP e fase de invulnerabilidade aos 30% (sem AOE!).": "1st Boss mechanics (Top DPS item use), Lilith at 50% HP, and invulnerability phase at 30% (no AOE!).",
+  "Mecânicas de Meteors, Omae, círculos de sobrevivência aos 30% e 10% de HP e cálculo de dano acumulado do veneno (4k por tick).": "Meteors, Omae, survival circles at 30% & 10% HP, and stacked poison damage calculation (4k per tick).",
+  "Recomendações de status (75k+ HP), como mitigar os 70k de dano do Omae, Small Circle aos 50% e DPS Check final.": "Recommended stats (75k+ HP), how to mitigate 70k Omae damage, Small Circle at 50%, and final DPS Check.",
+  "Requisitos de SSS+ Vaccine e Tankers, timing do F3 aos 88% e 31% para pular mecânicas, variações de RNG (70%–39%) e DPS Check final.": "SSS+ Vaccine & Tank requirements, F3 timing at 88% & 31% to skip mechanics, RNG variations (70%–39%), and final DPS Check.",
+  "Composição (Examon X / Fanglongmon Shin), janelas de F3 para skip (69%–62% e 29%–22%), Stacks de 70k e Huge Split Circles.": "Composition (Examon X / Fanglongmon Shin), F3 skip windows (69%–62% & 29%–22%), 70k Stacks, and Huge Split Circles.",
+  "Requisitos de CT (300%+) e composição, debuffs de +20% dano recebido, parada obrigatória aos 60%–59% (Northern Impact) e meteoros finais.": "CT requirements (300%+) & comp, +20% damage taken debuffs, mandatory stop at 60%–59% (Northern Impact), and final meteors.",
+  "Recomendações de status (81k+ HP contra o Omae de 80k), títulos defensivos, skip aos 87%, mecânica de 1 pessoa por círculo (29%) e DPS Check final.": "Recommended stats (81k+ HP vs 80k Omae), defensive titles, 87% skip, 1-person-per-circle mechanic (29%), and final DPS Check.",
+  "Status recomendados (90k+ HP), mecânica dos Housemons nos cantos (70% e 30%), fase do Housemon Minion (50%) e Small Blue Circles finais.": "Recommended stats (90k+ HP), corner Housemon mechanic (70% & 30%), Housemon Minion phase (50%), and final Small Blue Circles.",
+  "Mecânicas de Stack/Unstack, eliminação rápida dos 2 minions aos 49% (evitando Nuke Damage), Blue Circles (24%) e Max Power Burst aos 8%.": "Stack/Unstack mechanics, fast kill on 2 minions at 49% (avoiding Nuke Damage), Blue Circles (24%), and Max Power Burst at 8%.",
+  "Tabela completa (95% ao 10%), LadyDevimon (80%), truque de aggro nos Evilmons (60%–55%), Tank Buster de 120k (UVF) e sequência roxa final.": "Full table (95% to 10%), LadyDevimon (80%), Evilmon aggro trick (60%–55%), 120k Tank Buster (UVF), and final purple sequence.",
+  "Roteiro completo das 3 salas: Room 1 (Exa/Jes/Gankoo), Room 2 (DexDorugoramon), Room 3 Parte 1 (Death-X-mon) e Parte 2 (AOA + sequência de F3).": "Full 3-room walkthrough: Room 1 (Exa/Jes/Gankoo), Room 2 (DexDorugoramon), Room 3 Part 1 (Death-X-mon), and Part 2 (AOA + F3 sequence).",
+  "Roteiro completo dos 4 bosses: MetalSeadramon, Puppetmon (Housemon), Mugendramon (hit de 100k + stack de dano) e Piedmon (UFM Shield e sequências).": "Full 4-boss guide: MetalSeadramon, Puppetmon (Housemon), Mugendramon (100k hit + damage stack), and Piedmon (UFM Shield & sequences).",
+  "Composição (WarGreymon Shin + 3 OMM), rotações de Stack/Split aos 70% e 35%, ordem exata de cura (Choco/HoH/CC) e alerta de Feel the Pain invisível.": "Composition (WarGreymon Shin + 3 OMM), Stack/Split rotations at 70% & 35%, exact heal order (Choco/HoH/CC), and invisible Feel the Pain alert.",
+  "Roteiro dos 3 chefes: sequências do MetalGarurumon, posicionamento atrás da torre no WarGreymon, mecânica dos 3 itens no Ordine (50%) e DPS Check final do OMM.": "3-boss guide: MetalGarurumon sequences, behind-tower positioning on WarGreymon, 3-item mechanic on Ordine (50%), and OMM final DPS Check.",
+  "Tabela completa (95% ao 10%), ciclos de 30s (Big Split e HB Meteors), Omae de 76k aos 55% e sequência de Stack/Split aos 35%, 30% e 25%.": "Full table (95% to 10%), 30s cycles (Big Split & HB Meteors), 76k Omae at 55%, and Stack/Split sequence at 35%, 30%, and 25%.",
+  "Tabela de direções por cor (Oeste/Sul/Leste/Norte), posição dos 3 Devas (64%), ordem dos círculos aos 50% e regras de sobrevivência.": "Color-coded direction table (West/South/East/North), 3 Devas positions (64%), circle order at 50%, and survival rules.",
+  "Guia completo de farm de Tera: horários e canais da Spiral Tour (3,6T), cronograma da Forest Tour (2,4T + Unique Data) e rota combinada (3,1T).": "Complete Tera farming guide: Spiral Tour schedules & channels (3.6T), Forest Tour schedule (2.4T + Unique Data), and combined route (3.1T).",
+  "Chegada do evento de Novembro, ajustes em raids e melhorias de qualidade de vida.": "Arrival of the November event, raid adjustments, and quality-of-life improvements.",
+
 };
 
 // Substituições parciais para frases repetidas dentro das tabelas de raid

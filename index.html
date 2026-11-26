@@ -5,18 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DigiLab-Hub Fan-Wiki • Guias, Patch Notes & Calculadoras DMW</title>
   <link rel="stylesheet" href="style.css">
-    <!-- Prévia Social (Open Graph) para Discord, WhatsApp e Redes Sociais -->
+  <!-- Prévia Social (Open Graph) para Discord, WhatsApp e Redes Sociais -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://vercel.app">
   <meta property="og:title" content="DigiLab-Hub Fan-Wiki • Guias, Patch Notes & Calculadoras">
   <meta property="og:description" content="Central de ferramentas, calculadora de True Digivice, verificador de Dungeons e roteiros completos para DMW.">
-  <meta property="og:image" content="https://vercel.appimg/jumping.jpg">
+  <meta property="og:image" content="https://vercel.app">
   <meta name="theme-color" content="#00e5ff">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="DigiLab-Hub Fan-Wiki • Guias, Patch Notes & Calculadoras">
   <meta name="twitter:description" content="Central de ferramentas, calculadora de True Digivice, verificador de Dungeons e roteiros completos para DMW.">
-  <meta name="twitter:image" content="https://vercel.appimg/jumping.jpg">
+  <meta name="twitter:image" content="https://vercel.app">
+
+  <style>
+    #btn-voltar-topo {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999999;
+      background: rgba(8, 15, 28, 0.95);
+      color: #00e5ff;
+      border: 1px solid rgba(0, 229, 255, 0.6);
+      border-radius: 50%;
+      width: 46px;
+      height: 46px;
+      font-size: 1.25rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+      transition: all 0.25s ease;
+    }
+
+    #btn-voltar-topo:hover {
+      background: #00e5ff;
+      color: #020408;
+      transform: translateY(-3px);
+      box-shadow: 0 0 20px rgba(0, 229, 255, 0.6);
+    }
+  </style>
+
 </head>
+
 <body>
 
   <!-- SELETOR DE IDIOMA (PT-BR / EN-US) -->
@@ -28,8 +60,6 @@
       <span class="bandeira-emoji">🇺🇸</span> EN
     </button>
   </div>
-
-
 
   <div class="camada-visual cenario-ferramentas" id="cenario-3">
     <svg class="arte-svg" viewBox="0 0 500 500" fill="none">
@@ -67,7 +97,6 @@
       </g>
     </svg>
   </div>
-
   <div class="camada-visual cenario-intro" id="cenario-0">
     <svg class="arte-svg" viewBox="0 0 500 500" fill="none">
       <g class="girar-horario">
@@ -147,7 +176,6 @@
     </div>
     <div id="grade-guias" class="grade-itens"></div>
   </div>
-
   <div id="patch-notes" class="secao-destino crimson-border">
     <span class="tag-atributo" style="color: #fb7185;">// REGISTRO DO SISTEMA</span>
     <h2>🔥 Patch Notes & Atualizações</h2>
@@ -161,17 +189,22 @@
     <div id="grade-ferramentas" class="grade-itens" style="margin-top: 25px;"></div>
   </div>
 
-
   <div id="modal-leitor" class="modal-overlay">
     <div class="modal-caixa">
       <button id="fechar-modal" class="btn-fechar">✕ FECHAR</button>
       <div id="conteudo-modal"></div>
+      <div style="position: sticky; bottom: 0; text-align: right; margin-top: 20px; pointer-events: none;">
+        <button type="button" class="btn-topo-modal" onclick="document.querySelector('.modal-caixa').scrollTo({ top: 0, behavior: 'smooth' })">
+          ▲ TOPO
+        </button>
+      </div>
     </div>
   </div>
 
+
   <a href="#topo" class="link-suave btn-topo">▲ TOPO</a>
 
-    <!-- RODAPÉ: AVISO FAN-WIKI E CRÉDITOS DO CRIADOR -->
+  <!-- RODAPÉ: AVISO FAN-WIKI E CRÉDITOS DO CRIADOR -->
   <footer class="rodape-portal">
     <div class="rodape-conteudo">
       <p class="aviso-legal">
@@ -181,7 +214,9 @@
         © 2026 <strong>DigiLab-Hub Fan-Wiki</strong> • Guias, ferramentas e layout desenvolvidos por <strong>qGuga</strong>.
       </p>
     </div>
-   </footer>
+  </footer>
+
   <script src="scripts.js"></script>
+
 </body>
 </html>
