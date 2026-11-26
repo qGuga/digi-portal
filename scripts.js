@@ -284,6 +284,17 @@ const guiasProgressao = [
     resumo: "Tabela de direções por cor (Oeste/Sul/Leste/Norte), posição dos 3 Devas (64%), ordem dos círculos aos 50% e regras de sobrevivência.",
     arquivo: "posts/fdgh.html"
   },
+  {
+    titulo: "Guia de Raid: Void Space [Hard] — Apocalymon",
+    fase: "end",
+    labelFase: "End Game",
+    classeTag: "tag-end",
+    data: "26 de Novembro, 2026 • Guia de Dungeons DMW",
+    imagem: "img/apo.jpg", // Troque pelo nome da imagem/print da Apo Hard
+    resumo: "Roteiro completo das 3 fases: Apocalymon (debuffs opostos), mensagens enganosas, regra do MetalEtemon e rotação de cura dos 30%.",
+    arquivo: "posts/void-space-hard.html"
+  },
+
 
 
 ];
@@ -1097,7 +1108,8 @@ const dicionarioExatoEN = {
   "Tabela de direções por cor (Oeste/Sul/Leste/Norte), posição dos 3 Devas (64%), ordem dos círculos aos 50% e regras de sobrevivência.": "Color-coded direction table (West/South/East/North), 3 Devas positions (64%), circle order at 50%, and survival rules.",
   "Guia completo de farm de Tera: horários e canais da Spiral Tour (3,6T), cronograma da Forest Tour (2,4T + Unique Data) e rota combinada (3,1T).": "Complete Tera farming guide: Spiral Tour schedules & channels (3.6T), Forest Tour schedule (2.4T + Unique Data), and combined route (3.1T).",
   "Chegada do evento de Novembro, ajustes em raids e melhorias de qualidade de vida.": "Arrival of the November event, raid adjustments, and quality-of-life improvements.",
-
+  "Guia de Raid: Void Space [Hard] — Apocalymon": "Raid Guide: Void Space [Hard] — Apocalymon",
+  "Roteiro completo das 3 fases: Apocalymon (debuffs opostos), mensagens enganosas, regra do MetalEtemon e rotação de cura dos 30%.": "Complete 3-phase walkthrough: Apocalymon (opposite debuffs), deceptive messages, MetalEtemon golden rule, and 30% healing rotation.",
 };
 
 // Substituições parciais para frases repetidas dentro das tabelas de raid
