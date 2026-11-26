@@ -861,39 +861,25 @@ window.googleTranslateElementInit = function() {
 })();
 
 // ========================================================
-// 7. SISTEMA DE TRADUÇÃO INSTANTÂNEA (PT-BR <-> EN-US)
+// 7. SELETOR DE IDIOMA (PT-BR <-> EN-US)
 // ========================================================
 window.mudarIdioma = function(lang) {
-  localStorage.setItem('digilab_lang', lang);
+  const urlAtual = window.location.href;
 
-  const btnPt = document.getElementById('btn-lang-pt');
-  const btnEn = document.getElementById('btn-lang-en');
-  if (btnPt && btnEn) {
-    btnPt.classList.toggle('ativo', lang === 'pt');
-    btnEn.classList.toggle('ativo', lang === 'en');
+  // Se estiver rodando no site online (Vercel)
+  if (urlAtual.includes('vercel.app')) {
+    if (lang === 'en') {
+      // Redireciona pelo tradutor oficial do Google mantendo a página exata
+      const urlLimpa = encodeURIComponent(urlAtual);
+      window.location.href = `https://google.com{urlLimpa}`;
+    } else {
+      window.location.href = 'https://vercel.app';
+    }
+    return;
   }
 
-  let tentativas = 0;
-  const intervalo = setInterval(() => {
-    const combo = document.querySelector('.goog-te-combo');
-    tentativas++;
-
-    if (combo) {
-      combo.value = lang;
-      combo.dispatchEvent(new Event('change', { bubbles: true }));
-      clearInterval(intervalo);
-    } else if (tentativas > 25) {
-      clearInterval(intervalo);
-      alert("O tradutor do Google está sendo bloqueado pelo navegador local ou AdBlock. Teste no link online da Vercel!");
-    }
-  }, 200);
+  // Se estiver testando localmente no VS Code (Live Server)
+  alert("A tradução automática completa funciona assim que você subir essa atualização para a Vercel (digilabhub.vercel.app)!");
 };
 
-// Reaplica o idioma salvo automaticamente ao abrir ou trocar de página
-window.addEventListener('load', () => {
-  const idiomaSalvo = localStorage.getItem('digilab_lang');
-  if (idiomaSalvo === 'en') {
-    window.mudarIdioma('en');
-  }
-});
 
