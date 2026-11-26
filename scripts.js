@@ -353,11 +353,21 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       if (item.arquivo) {
-        fetch(item.arquivo)
-          .then(res => res.ok ? res.text() : Promise.reject())
-          .then(html => exibirConteudo(html))
+        const idiomaAtual = localStorage.getItem('digilab_lang') || 'pt';
+        const arquivoAlvo = idiomaAtual === 'en'
+          ? item.arquivo.replace('.html', '-en.html')
+          : item.arquivo;
+
+        fetch(arquivoAlvo)
+          .then(res => res.ok ? res.text() : fetch(item.arquivo).then(r => r.text()))
+          .then(html => {
+            exibirConteudo(html);
+          })
           .catch(() => exibirConteudo('<p>Erro ao carregar o arquivo. Verifique se o nome na pasta posts/ está correto.</p>'));
-      } else {
+
+      }
+
+ else {
         exibirConteudo(item.conteudo || '');
       }
     } else {
@@ -372,14 +382,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const inputBusca = document.getElementById('busca-guia');
   let categoriaAtual = 'todos';
 
+  function t(texto) {
+    if (localStorage.getItem('digilab_lang') === 'en' && typeof dicionarioExatoEN !== 'undefined') {
+      return dicionarioExatoEN[texto] || texto;
+    }
+    return texto;
+  }
+
   function renderizarGuias() {
     if (!gradeGuias) return;
     const termo = inputBusca ? inputBusca.value.toLowerCase() : '';
     gradeGuias.innerHTML = '';
 
     guiasProgressao.forEach((guia, index) => {
+      const tituloTraduzido = t(guia.titulo);
+      const resumoTraduzido = t(guia.resumo);
+
       const bateCat = categoriaAtual === 'todos' || guia.fase === categoriaAtual;
-      const bateBusca = guia.titulo.toLowerCase().includes(termo) || guia.resumo.toLowerCase().includes(termo);
+      const bateBusca = tituloTraduzido.toLowerCase().includes(termo) || resumoTraduzido.toLowerCase().includes(termo);
 
       if (bateCat && bateBusca) {
         const card = document.createElement('a');
@@ -387,69 +407,78 @@ document.addEventListener("DOMContentLoaded", () => {
         card.className = 'item-card';
         card.style.textDecoration = 'none';
         card.style.color = 'inherit';
-        const thumbHtml = guia.imagem ? `<img src="${guia.imagem}" alt="${guia.titulo}" class="card-thumb">` : '';
+        const thumbHtml = guia.imagem ? `<img src="${guia.imagem}" alt="${tituloTraduzido}" class="card-thumb">` : '';
 
         card.innerHTML = `
           <div>
             ${thumbHtml}
             <span class="badge-tag ${guia.classeTag}">${guia.labelFase}</span>
-            <h3 style="margin: 0 0 8px 0; color: #f8fafc;">${guia.titulo}</h3>
-            <p style="margin: 0; font-size: 0.9rem; color: #94a3b8;">${guia.resumo}</p>
+            <h3 style="margin: 0 0 8px 0; color: #f8fafc;">${tituloTraduzido}</h3>
+            <p style="margin: 0; font-size: 0.9rem; color: #94a3b8;">${resumoTraduzido}</p>
           </div>
-          <span style="margin-top: 16px; font-size: 0.85rem; color: #00e5ff; font-weight: bold;">Abrir guia completo →</span>
+          <span style="margin-top: 16px; font-size: 0.85rem; color: #00e5ff; font-weight: bold;">${t("Abrir guia completo →")}</span>
         `;
         gradeGuias.appendChild(card);
       }
     });
   }
 
+
   function renderizarPatches() {
     if (!gradePatches) return;
     gradePatches.innerHTML = '';
     listaPatches.forEach((patch, index) => {
+      const tituloTraduzido = t(patch.titulo);
+      const resumoTraduzido = t(patch.resumo);
+
       const card = document.createElement('a');
       card.href = `artigo.html?tipo=patch&id=${index}`;
       card.className = 'item-card patch';
       card.style.textDecoration = 'none';
       card.style.color = 'inherit';
-      const thumbHtml = patch.imagem ? `<img src="${patch.imagem}" alt="${patch.titulo}" class="card-thumb">` : '';
+      const thumbHtml = patch.imagem ? `<img src="${patch.imagem}" alt="${tituloTraduzido}" class="card-thumb">` : '';
 
       card.innerHTML = `
         <div>
           ${thumbHtml}
-          <span class="badge-tag tag-patch">${patch.versao}</span>
-          <h3 style="margin: 0 0 8px 0; color: #f8fafc;">${patch.titulo}</h3>
-          <p style="margin: 0; font-size: 0.9rem; color: #94a3b8;">${patch.resumo}</p>
+          <span class="badge-tag tag-patch">${t(patch.versao)}</span>
+          <h3 style="margin: 0 0 8px 0; color: #f8fafc;">${tituloTraduzido}</h3>
+          <p style="margin: 0; font-size: 0.9rem; color: #94a3b8;">${resumoTraduzido}</p>
         </div>
-        <span style="margin-top: 16px; font-size: 0.85rem; color: #fb7185; font-weight: bold;">Ler notas completas →</span>
+        <span style="margin-top: 16px; font-size: 0.85rem; color: #fb7185; font-weight: bold;">${t("Ler notas completas →")}</span>
       `;
       gradePatches.appendChild(card);
     });
   }
 
+
   function renderizarFerramentas() {
     if (!gradeFerramentas) return;
     gradeFerramentas.innerHTML = '';
     listaFerramentas.forEach((tool, index) => {
+      const tituloTraduzido = t(tool.titulo);
+      const resumoTraduzido = t(tool.resumo);
+
       const card = document.createElement('a');
       card.href = `artigo.html?tipo=tool&id=${index}`;
       card.className = 'item-card tool';
       card.style.textDecoration = 'none';
       card.style.color = 'inherit';
-      const thumbHtml = tool.imagem ? `<img src="${tool.imagem}" alt="${tool.titulo}" class="card-thumb">` : '';
+      const thumbHtml = tool.imagem ? `<img src="${tool.imagem}" alt="${tituloTraduzido}" class="card-thumb">` : '';
 
       card.innerHTML = `
         <div>
           ${thumbHtml}
-          <span class="badge-tag tag-tool">${tool.categoria}</span>
-          <h3 style="margin: 0 0 8px 0; color: #f8fafc;">${tool.titulo}</h3>
-          <p style="margin: 0; font-size: 0.9rem; color: #94a3b8;">${tool.resumo}</p>
+          <span class="badge-tag tag-tool">${t(tool.categoria)}</span>
+          <h3 style="margin: 0 0 8px 0; color: #f8fafc;">${tituloTraduzido}</h3>
+          <p style="margin: 0; font-size: 0.9rem; color: #94a3b8;">${resumoTraduzido}</p>
         </div>
-        <span style="margin-top: 16px; font-size: 0.85rem; color: #fbbf24; font-weight: bold;">Abrir simulador →</span>
+        <span style="margin-top: 16px; font-size: 0.85rem; color: #fbbf24; font-weight: bold;">${t("Abrir simulador →")}</span>
       `;
       gradeFerramentas.appendChild(card);
     });
   }
+
 
   document.querySelectorAll('.aba-btn').forEach(btn => {
     btn.onclick = () => {
@@ -843,79 +872,176 @@ window.verificarDungeons = function() {
   `;
 };
 // ========================================================
-// 7. TRADUTOR INTERNO INSTANTÂNEO (PT-BR <-> EN-US)
+// 7. TRADUTOR NATIVO EXPANDIDO (PT-BR <-> EN-US)
 // ========================================================
-async function traduzirLoteGoogle(textos) {
-  const unificado = textos.join('\n|||\n');
-  try {
-    const url = 'https://googleapis.com' + encodeURIComponent(unificado);
-    const res = await fetch(url);
-    const data = await res.json();
-    
-    // Extrai corretamente cada trecho traduzido dentro de data[0]
-    let traduzidoCompleto = '';
-    if (data && data[0]) {
-      data[0].forEach(parte => {
-        if (parte[0]) traduzidoCompleto += parte[0];
-      });
-    }
-    return traduzidoCompleto ? traduzidoCompleto.split(/\s*\|\|\|\s*/) : textos;
-  } catch (e) {
-    console.error("Erro na tradução:", e);
-    return textos;
-  }
-}
+const dicionarioExatoEN = {
+  // Menu, Hero e Navegação
+  "GUIAS": "GUIDES",
+  "PATCHES": "PATCHES",
+  "FERRAMENTAS": "TOOLS",
+  "Guias, Patch Notes & Calculadoras DMW": "DMW Guides, Patch Notes & Calculators",
+  "Central de ferramentas, calculadora de True Digivice, verificador de Dungeons e roteiros completos para DMW.": "Tool hub, True Digivice calculator, Dungeon checker, and complete progression guides for DMW.",
+  "Explorar Guias": "Explore Guides",
+  "Ver Patch Notes": "View Patch Notes",
+  "Abrir Calculadoras": "Open Calculators",
+  "Guias de Progressão": "Progression Guides",
+  "Todos": "All",
+  "Todos os Guias": "All Guides",
+  "Buscar guia por nome ou palavra-chave...": "Search guide by name or keyword...",
+  "Notas de Atualização (Patch Notes)": "Update Notes (Patch Notes)",
+  "Ferramentas & Calculadoras": "Tools & Calculators",
+  "Abrir guia completo →": "Open full guide →",
+  "Ler notas completas →": "Read full notes →",
+  "Abrir simulador →": "Open simulator →",
+  "← Voltar para o Portal": "← Back to Portal",
+  "▲ TOPO": "▲ TOP",
+  "✕ FECHAR": "✕ CLOSE",
 
+  // Ferramentas e Calculadoras
+  "Simulador • True Vice": "Simulator • True Vice",
+  "Calculadora Interativa": "Interactive Calculator",
+  "Calculadora de True Digivice (Tokyo Tokens 5:1)": "True Digivice Calculator (Tokyo Tokens 5:1)",
+  "Selecione sua etapa atual (Beginning/Adventure) e calcule quanto falta de Essence e Tokyo Tokens.": "Select your current stage (Beginning/Adventure) and calculate remaining Essence and Tokyo Tokens.",
+  "Simulador • Dungeons": "Simulator • Dungeons",
+  "Ferramenta Interativa": "Interactive Tool",
+  "Verificador de Dungeons (DPS & Tank)": "Dungeon Checker (DPS & Tank)",
+  "Informe seus status de DPS (HP/CT/HT) ou Tank (HP/DE/BL) para descobrir quais dungeons você já pode fazer.": "Enter your DPS (HP/CT/HT) or Tank (HP/DE/BL) stats to see which dungeons you can clear.",
+  "Verificar Dungeons Compatíveis": "Check Compatible Dungeons",
+  "Material Necessário": "Required Material",
+  "Você Tem": "You Have",
+  "Meta": "Goal",
+  "Faltam": "Missing",
+  "Troca": "Exchange",
+  "Tokens Faltando": "Missing Tokens",
+  "Zerar Campos": "Reset Fields",
+  "Progresso Total até o True Digivice": "Total Progress to True Digivice",
+  "Essence Restante": "Remaining Essence",
+  "Tokens para os Itens": "Tokens for Items",
+  "Tokyo Tokens a Farmar": "Tokyo Tokens to Farm",
+  "Tabela Completa de Receitas por Etapa": "Complete Recipe Table by Stage",
+  "Etapa": "Stage",
+  "Seu HP Máximo": "Your Max HP",
+  "Seu Critical Rate (CT %)": "Your Critical Rate (CT %)",
+  "Seu Hit Rate (HT)": "Your Hit Rate (HT)",
+  "Sua Defesa (DE)": "Your Defense (DE)",
+  "Seu Block (BL %)": "Your Block (BL %)",
 
-window.mudarIdioma = async function(lang) {
+  // Cabeçalhos e Títulos Comuns nas Raids
+  "HP do Boss": "Boss HP",
+  "HP do Chefe": "Boss HP",
+  "Mecânica Ativada": "Triggered Mechanic",
+  "Mecânica": "Mechanic",
+  "Status": "Stat",
+  "Atributo": "Attribute",
+  "Requisito": "Requirement",
+  "Recomendação": "Recommendation",
+  "Recomendações de Status": "Recommended Stats",
+  "Composição & Recomendações": "Composition & Recommendations",
+  "Composição & Digimons Recomendados": "Recommended Composition & Digimon",
+  "Mecânicas Gerais": "General Mechanics",
+  "Mecânicas Finais": "Final Mechanics",
+  "Observações Importantes": "Important Notes",
+  "🍀 Boa sorte nas suas runs!": "🍀 Good luck on your runs!",
+  "🎉 Fim do Guia! Bom farm no Digital World!": "🎉 End of Guide! Happy farming in the Digital World!",
+
+  // Títulos dos Guias
+  "Iniciando a Conta: Roteiro Completo do Nível 1 ao 120": "Starting Your Account: Complete Guide from Level 1 to 120",
+  "Continuação Early Game: Liberando e Completando Shinjuku": "Early Game Continuation: Unlocking & Completing Shinjuku",
+  "Fechando o Early Game: Desbloqueio da Digital Area": "Closing Early Game: Unlocking Digital Area",
+  "Saga de Tokyo Area: Liberando Odaiba, Big Sight e Shibuya": "Tokyo Area Saga: Unlocking Odaiba, Big Sight & Shibuya",
+  "Desbloqueando Spiral Mountain: Pré-requisitos & Áreas": "Unlocking Spiral Mountain: Prerequisites & Areas",
+  "Guia de Raid: Coliseu Extreme (R1 ao R6) — Mecânicas": "Raid Guide: Colosseum Extreme (R1 to R6) — Mechanics",
+  "Guia de Raid: Berserk Arena (Alter-S & Zwart) — Mecânicas": "Raid Guide: Berserk Arena (Alter-S & Zwart) — Mechanics",
+  "Guia de Raid: Green Zone [EX] (Bagramon) — Mecânicas": "Raid Guide: Green Zone [EX] (Bagramon) — Mechanics",
+  "Guia de Raid: Chaotic Battlefield (Beelzemon) — Skip Run": "Raid Guide: Chaotic Battlefield (Beelzemon) — Skip Run",
+  "Guia de Raid: Burning Battlefield (Megidramon) — Mecânicas": "Raid Guide: Burning Battlefield (Megidramon) — Mechanics",
+  "Guia de Raid: Final Battlefield — Common Skip Run": "Raid Guide: Final Battlefield — Common Skip Run",
+  "Guia de Raid: Bagramon Domain — Mecânicas": "Raid Guide: Bagramon Domain — Mechanics",
+  "Guia de Raid: Shopping Mall (Mall Dungeon) — Mecânicas": "Raid Guide: Shopping Mall (Mall Dungeon) — Mechanics",
+  "Guia de Raid: Neverland — Mecânicas & Status": "Raid Guide: Neverland — Mechanics & Stats",
+  "Guia de Raid: Venomous Vortex [Hard] (Venom Vamdemon)": "Raid Guide: Venomous Vortex [Hard] (Venom Vamdemon)",
+  "Guia de Raid: Path of Bravery (WarGreymon) — Mecânicas": "Raid Guide: Path of Bravery (WarGreymon) — Mechanics",
+  "Guia de Raid: Path of Friendship (MetalGarurumon) — Mecânicas": "Raid Guide: Path of Friendship (MetalGarurumon) — Mechanics",
+  "Guia de Raid: Marine Dungeon — Common Skip Run": "Raid Guide: Marine Dungeon — Common Skip Run",
+  "Guia de Raid: Puppet Dungeon (Puppetmon) — Mecânicas": "Raid Guide: Puppet Dungeon (Puppetmon) — Mechanics",
+  "Guia de Raid: Mugen Dungeon (MugenDramon) — Mecânicas": "Raid Guide: Mugen Dungeon (MugenDramon) — Mechanics",
+  "Guia de Raid: Piedmon Dungeon — Mecânicas": "Raid Guide: Piedmon Dungeon — Mechanics",
+  "Guia de Raid: Royal Base Hard (RBH) — Todas as Salas": "Raid Guide: Royal Base Hard (RBH) — All Rooms",
+  "Guia de Raid: Four Pillars (4 Mestres das Trevas) — Mecânicas": "Raid Guide: Four Pillars (4 Dark Masters) — Mechanics",
+  "Guia de Raid: Void Space (Apocalymon) — Mecânicas & Curas": "Raid Guide: Void Space (Apocalymon) — Mechanics & Heals",
+  "Guia de Raid: Odaiba Park (MetalGaruru, WarGrey & OMM)": "Raid Guide: Odaiba Park (MetalGaruru, WarGrey & OMM)",
+  "Guia de Raid: Abyss Floor 6 — Mecânicas & Sequências": "Raid Guide: Abyss Floor 6 — Mechanics & Sequences",
+  "Guia de Raid: Fanglongmon Hard (FDGH) — Mecânicas & Direções": "Raid Guide: Fanglongmon Hard (FDGH) — Mechanics & Directions",
+  "Tera Tours Guide: Spiral Tour, Forest Tour & Rota Sequencial": "Tera Tours Guide: Spiral Tour, Forest Tour & Sequential Route",
+
+  // Rodapé
+  "⚠ Aviso Legal (Fan-Wiki / Fan-Site Não Oficial):": "⚠ Legal Disclaimer (Unofficial Fan-Wiki / Fan-Site):",
+  "Este portal é um projeto independente feito de fã para fã, sem qualquer vínculo, patrocínio ou afiliação com a": "This portal is an independent fan-made project with no affiliation, sponsorship, or endorsement from",
+  "Todas as marcas, nomes e imagens do jogo pertencem aos seus respectivos proprietários.": "All game trademarks, names, and images belong to their respective owners.",
+  "• Guias, ferramentas e layout desenvolvidos por": "• Guides, tools, and layout developed by"
+};
+
+// Substituições parciais para frases repetidas dentro das tabelas de raid
+const substituicoesParciaisEN = [
+  [/de Novembro, 2026/g, "November, 2026"],
+  [/Guia de Dungeons DMW/g, "DMW Dungeons Guide"],
+  [/Guia Oficial DMW/g, "Official DMW Guide"],
+  [/Guia de Farm DMW/g, "DMW Farming Guide"],
+  [/seguido de/g, "followed by"],
+  [/seguidos de/g, "followed by"],
+  [/seguida de/g, "followed by"],
+  [/aparecem na arena/g, "appear in the arena"],
+  [/Vários/g, "Multiple"],
+  [/vários/g, "multiple"],
+  [/aproximadamente/g, "approximately"],
+  [/causa/g, "deals"],
+  [/de dano/g, "damage"],
+  [/Invocação de Minion/g, "Minion Spawn"],
+  [/Invocação de/g, "Spawn of"],
+  [/Lembrete de Requisitos \(Staff\):/g, "Staff Stat Requirements:"],
+  [/Exige também:/g, "Also requires:"],
+  [/Status Compatíveis/g, "Compatible Stats"]
+];
+
+window.mudarIdioma = function(lang) {
   localStorage.setItem('digilab_lang', lang);
-
-  const btnPt = document.getElementById('btn-lang-pt');
-  const btnEn = document.getElementById('btn-lang-en');
-  if (btnPt && btnEn) {
-    btnPt.classList.toggle('ativo', lang === 'pt');
-    btnEn.classList.toggle('ativo', lang === 'en');
-  }
-
-  if (lang === 'pt') {
-    window.location.reload();
-    return;
-  }
-
-  if (btnEn) btnEn.innerHTML = '<img src="https://flagcdn.com" alt="EN"> ...';
-
-  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
-  const nos = [];
-  let no;
-
-  while ((no = walker.nextNode())) {
-    const pai = no.parentElement;
-    if (!pai || pai.tagName === 'SCRIPT' || pai.tagName === 'STYLE' || pai.closest('.seletor-idioma')) continue;
-    const limpo = no.nodeValue.trim();
-    if (limpo.length > 1 && /[a-zA-ZÀ-ÿ]/.test(limpo)) {
-      nos.push(no);
-    }
-  }
-
-  const tamanhoLote = 25;
-  for (let i = 0; i < nos.length; i += tamanhoLote) {
-    const fatiaNos = nos.slice(i, i + tamanhoLote);
-    const textosOriginais = fatiaNos.map(n => n.nodeValue.trim());
-    const textosTraduzidos = await traduzirLoteGoogle(textosOriginais);
-
-    fatiaNos.forEach((n, idx) => {
-      if (textosTraduzidos[idx]) {
-        n.nodeValue = n.nodeValue.replace(n.nodeValue.trim(), textosTraduzidos[idx]);
-      }
-    });
-  }
-
-  if (btnEn) btnEn.innerHTML = '<img src="https://flagcdn.com" alt="EN-US"> EN';
+  window.location.reload();
 };
 
 window.addEventListener('load', () => {
-  if (localStorage.getItem('digilab_lang') === 'en') {
-    setTimeout(() => window.mudarIdioma('en'), 800);
+  const idiomaSalvo = localStorage.getItem('digilab_lang') || 'pt';
+  const btnPt = document.getElementById('btn-lang-pt');
+  const btnEn = document.getElementById('btn-lang-en');
+
+  if (btnPt && btnEn) {
+    btnPt.classList.toggle('ativo', idiomaSalvo === 'pt');
+    btnEn.classList.toggle('ativo', idiomaSalvo === 'en');
+  }
+
+  if (idiomaSalvo === 'en') {
+    document.querySelectorAll('input[placeholder]').forEach(inp => {
+      const ph = inp.getAttribute('placeholder');
+      if (dicionarioExatoEN[ph]) inp.setAttribute('placeholder', dicionarioExatoEN[ph]);
+    });
+
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+    let no;
+    while ((no = walker.nextNode())) {
+      const pai = no.parentElement;
+      if (!pai || pai.tagName === 'SCRIPT' || pai.tagName === 'STYLE' || pai.closest('.seletor-idioma')) continue;
+
+      let texto = no.nodeValue;
+      const limpo = texto.trim();
+
+      if (dicionarioExatoEN[limpo]) {
+        no.nodeValue = texto.replace(limpo, dicionarioExatoEN[limpo]);
+      } else if (limpo.length > 2 && typeof substituicoesParciaisEN !== 'undefined') {
+        substituicoesParciaisEN.forEach(([regex, troca]) => {
+          texto = texto.replace(regex, troca);
+        });
+        no.nodeValue = texto;
+      }
+    }
   }
 });
 
