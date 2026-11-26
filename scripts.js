@@ -326,6 +326,49 @@ const listaFerramentas = [
 // ========================================================
 // 4. MOTOR DO SITE (CARREGAMENTO, FILTROS E SCROLL)
 // ========================================================
+
+window.aplicarTraducao = function() {
+  if (localStorage.getItem('digilab_lang') !== 'en' || typeof dicionarioExatoEN === 'undefined') return;
+
+  // Placeholders de inputs
+  document.querySelectorAll('input[placeholder]').forEach(inp => {
+    const ph = inp.getAttribute('placeholder');
+    if (dicionarioExatoEN[ph]) inp.setAttribute('placeholder', dicionarioExatoEN[ph]);
+  });
+
+  // Atributos title, alt, aria-label
+  document.querySelectorAll('[title], [alt], [aria-label]').forEach(el => {
+    ['title', 'alt', 'aria-label'].forEach(attr => {
+      if (el.hasAttribute(attr)) {
+        const val = el.getAttribute(attr);
+        if (dicionarioExatoEN[val]) el.setAttribute(attr, dicionarioExatoEN[val]);
+      }
+    });
+  });
+
+  // Nós de texto
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+  let no;
+  while ((no = walker.nextNode())) {
+    const pai = no.parentElement;
+    if (!pai || pai.tagName === 'SCRIPT' || pai.tagName === 'STYLE' || pai.closest('.seletor-idioma')) continue;
+
+    let texto = no.nodeValue;
+    const limpo = texto.trim();
+    if (limpo === '') continue;
+
+    if (dicionarioExatoEN[limpo]) {
+      no.nodeValue = texto.replace(limpo, dicionarioExatoEN[limpo]);
+    } else if (limpo.length > 2 && typeof substituicoesParciaisEN !== 'undefined') {
+      let alterado = texto;
+      substituicoesParciaisEN.forEach(([regex, troca]) => {
+        alterado = alterado.replace(regex, troca);
+      });
+      no.nodeValue = alterado;
+    }
+  }
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   function t(texto) {
     if (localStorage.getItem('digilab_lang') === 'en' && typeof dicionarioExatoEN !== 'undefined') {
@@ -379,6 +422,7 @@ document.addEventListener("DOMContentLoaded", () => {
           .then(res => res.ok ? res.text() : fetch(item.arquivo).then(r => r.text()))
           .then(html => {
             exibirConteudo(html);
+            window.aplicarTraducao();
           })
           .catch(() => exibirConteudo('<p>Erro ao carregar o arquivo. Verifique se o nome na pasta posts/ está correto.</p>'));
       } else {
@@ -906,6 +950,7 @@ const dicionarioExatoEN = {
   "Abrir simulador →": "Open simulator →",
   "← Voltar para o Portal": "← Back to Portal",
   "▲ TOPO": "▲ TOP",
+  "Voltar ao topo": "Back to top",
   "✕ FECHAR": "✕ CLOSE",
 
   // Ferramentas e Calculadoras
@@ -952,6 +997,37 @@ const dicionarioExatoEN = {
   "Mecânicas Gerais": "General Mechanics",
   "Mecânicas Finais": "Final Mechanics",
   "Observações Importantes": "Important Notes",
+
+  // Tags de atributo (cabeçalhos das seções e cards da página inicial)
+  "// ROTEIRO DO TAMER": "// TAMER ROADMAP",
+  "// CHANGELOG OFICIAL": "// OFFICIAL CHANGELOG",
+  "// SIMULADORES & UTILIDADES": "// SIMULATORS & UTILITIES",
+  "// EVOLUÇÃO DA CONTA": "// ACCOUNT EVOLUTION",
+  "// REGISTRO DO SISTEMA": "// SYSTEM LOG",
+  "// CÁLCULO DE RECURSOS": "// RESOURCE CALCULATION",
+
+  // Hero / topo da página inicial
+  "Servidor DMO • Patch v3.5.4 Ativo": "DMO Server • Patch v3.5.4 Active",
+  "Roteiros completos de progressão, dicas de farm e registro oficial de atualizações do servidor.": "Complete progression guides, farming tips, and official server update log.",
+
+  // Cards da página inicial
+  "Do nível 1 ao End-Game: equipamentos, selos, acessórios e rotas de farm.": "From level 1 to End-Game: equipment, seals, accessories, and farming routes.",
+  "Notas de atualização, balanceamentos, novos sistemas e eventos ativos.": "Update notes, balance changes, new systems, and active events.",
+  "Calculadoras de farm, quantidade de materiais para craft e simuladores.": "Farming calculators, craft material quantities, and simulators.",
+
+  // Seções da página inicial
+  "🔥 Patch Notes & Atualizações": "🔥 Patch Notes & Updates",
+  "🔥 Patch Notes & Eventos": "🔥 Patch Notes & Events",
+  "🛠️ Ferramentas & Simuladores de Farm": "🛠️ Tools & Farming Simulators",
+
+  // Títulos dos cards da página inicial (com emoji)
+  "📈 Guias de Progressão": "📈 Progression Guides",
+  "🛠️ Ferramentas": "🛠️ Tools",
+  "Selecione um simulador abaixo para calcular exatamente quantos itens você precisa farmar.": "Select a simulator below to calculate exactly how many items you need to farm.",
+
+  // Busca e filtros
+  "🔍 Buscar (ex: Super Jumping, Dungeons, Acessórios)...": "🔍 Search (e.g. Super Jumping, Dungeons, Accessories)...",
+
   "🍀 Boa sorte nas suas runs!": "🍀 Good luck on your runs!",
   "🎉 Fim do Guia! Bom farm no Digital World!": "🎉 End of Guide! Happy farming in the Digital World!",
 
@@ -1048,7 +1124,10 @@ const substituicoesParciaisEN = [
 
 window.mudarIdioma = function(lang) {
   localStorage.setItem('digilab_lang', lang);
-  window.location.reload();
+  document.body.classList.add('fade-out');
+  setTimeout(() => {
+    window.location.reload();
+  }, 300);
 };
 
 window.addEventListener('load', () => {
@@ -1061,31 +1140,7 @@ window.addEventListener('load', () => {
     btnEn.classList.toggle('ativo', idiomaSalvo === 'en');
   }
 
-  if (idiomaSalvo === 'en') {
-    document.querySelectorAll('input[placeholder]').forEach(inp => {
-      const ph = inp.getAttribute('placeholder');
-      if (dicionarioExatoEN[ph]) inp.setAttribute('placeholder', dicionarioExatoEN[ph]);
-    });
-
-    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
-    let no;
-    while ((no = walker.nextNode())) {
-      const pai = no.parentElement;
-      if (!pai || pai.tagName === 'SCRIPT' || pai.tagName === 'STYLE' || pai.closest('.seletor-idioma')) continue;
-
-      let texto = no.nodeValue;
-      const limpo = texto.trim();
-
-      if (dicionarioExatoEN[limpo]) {
-        no.nodeValue = texto.replace(limpo, dicionarioExatoEN[limpo]);
-      } else if (limpo.length > 2 && typeof substituicoesParciaisEN !== 'undefined') {
-        substituicoesParciaisEN.forEach(([regex, troca]) => {
-          texto = texto.replace(regex, troca);
-        });
-        no.nodeValue = texto;
-      }
-    }
-  }
+  window.aplicarTraducao();
 });
 
 
