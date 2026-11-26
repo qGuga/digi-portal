@@ -845,59 +845,55 @@ window.verificarDungeons = function() {
 // ========================================================
 // 7. SISTEMA DE TRADUÇÃO INSTANTÂNEA (PT-BR <-> EN-US)
 // ========================================================
-function googleTranslateElementInit() {
+window.googleTranslateElementInit = function() {
   new google.translate.TranslateElement({
     pageLanguage: 'pt',
     includedLanguages: 'en,pt',
     autoDisplay: false
   }, 'google_translate_element');
-}
+};
 
-// Carrega o script oficial do Google Translate dinamicamente
 (function() {
   const gtScript = document.createElement('script');
   gtScript.type = 'text/javascript';
-  gtScript.src = '//://google.com';
+  gtScript.src = 'https://google.com';
   document.body.appendChild(gtScript);
 })();
 
+// ========================================================
+// 7. SISTEMA DE TRADUÇÃO INSTANTÂNEA (PT-BR <-> EN-US)
+// ========================================================
 window.mudarIdioma = function(lang) {
+  localStorage.setItem('digilab_lang', lang);
+
   const btnPt = document.getElementById('btn-lang-pt');
   const btnEn = document.getElementById('btn-lang-en');
-
   if (btnPt && btnEn) {
     btnPt.classList.toggle('ativo', lang === 'pt');
     btnEn.classList.toggle('ativo', lang === 'en');
   }
 
-  localStorage.setItem('digilab_lang', lang);
-
-  if (lang === 'pt') {
-    // Limpa o cookie do Google Translate para voltar ao português original limpo
-    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname;
-    window.location.reload();
-    return;
-  }
-
-  // Ativa a tradução para inglês no combo oculto do Google
-  const aplicarEn = setInterval(() => {
+  let tentativas = 0;
+  const intervalo = setInterval(() => {
     const combo = document.querySelector('.goog-te-combo');
+    tentativas++;
+
     if (combo) {
-      combo.value = 'en';
-      combo.dispatchEvent(new Event('change'));
-      clearInterval(aplicarEn);
+      combo.value = lang;
+      combo.dispatchEvent(new Event('change', { bubbles: true }));
+      clearInterval(intervalo);
+    } else if (tentativas > 25) {
+      clearInterval(intervalo);
+      alert("O tradutor do Google está sendo bloqueado pelo navegador local ou AdBlock. Teste no link online da Vercel!");
     }
   }, 200);
 };
 
-// Mantém o estado visual do botão ativo ao navegar entre páginas
-document.addEventListener("DOMContentLoaded", () => {
-  const idiomaSalvo = localStorage.getItem('digilab_lang') || 'pt';
-  const btnPt = document.getElementById('btn-lang-pt');
-  const btnEn = document.getElementById('btn-lang-en');
-  if (btnPt && btnEn) {
-    btnPt.classList.toggle('ativo', idiomaSalvo === 'pt');
-    btnEn.classList.toggle('ativo', idiomaSalvo === 'en');
+// Reaplica o idioma salvo automaticamente ao abrir ou trocar de página
+window.addEventListener('load', () => {
+  const idiomaSalvo = localStorage.getItem('digilab_lang');
+  if (idiomaSalvo === 'en') {
+    window.mudarIdioma('en');
   }
 });
+

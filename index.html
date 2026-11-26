@@ -19,16 +19,31 @@
 </head>
 <body>
 
-    <!-- SELETOR DE IDIOMA (PT-BR / EN-US) -->
+  <!-- SELETOR DE IDIOMA (PT-BR / EN-US) -->
   <div class="seletor-idioma">
     <button type="button" id="btn-lang-pt" class="btn-bandeira ativo" onclick="mudarIdioma('pt')" title="Português (Brasil)">
-      <span class="bandeira-emoji">🇧🇷</span> PT
+      <img src="https://flagcdn.com" alt="PT-BR"> PT
     </button>
     <button type="button" id="btn-lang-en" class="btn-bandeira" onclick="mudarIdioma('en')" title="English (USA)">
-      <span class="bandeira-emoji">🇺🇸</span> EN
+      <img src="https://flagcdn.com" alt="EN-US"> EN
     </button>
   </div>
-  <div id="google_translate_element" style="display: none;"></div>
+
+  <!-- Container oculto do Google Translate -->
+  <div id="google_translate_element" style="position: fixed; top: -100px; left: -100px; opacity: 0; pointer-events: none;"></div>
+
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'pt',
+        includedLanguages: 'pt,en',
+        autoDisplay: false
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="https://google.com"></script>
+
+
 
 
   <div class="camada-visual cenario-ferramentas" id="cenario-3">
