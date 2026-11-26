@@ -74,6 +74,18 @@
 </head>
 <body>
 
+  <!-- SELETOR DE IDIOMA (PT-BR / EN-US) -->
+  <div class="seletor-idioma">
+    <button type="button" id="btn-lang-pt" class="btn-bandeira ativo" onclick="mudarIdioma('pt')" title="Português (Brasil)">
+      <span class="bandeira-emoji">🇧🇷</span> PT
+    </button>
+    <button type="button" id="btn-lang-en" class="btn-bandeira" onclick="mudarIdioma('en')" title="English (USA)">
+      <span class="bandeira-emoji">🇺🇸</span> EN
+    </button>
+  </div>
+  <div id="google_translate_element" style="display: none;"></div>
+
+
   <!-- Fundo Temático Mantido -->
   <div class="camada-visual cenario-intro">
     <svg class="arte-svg" viewBox="0 0 500 500" fill="none" style="opacity: 0.25;">

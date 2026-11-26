@@ -842,3 +842,62 @@ window.verificarDungeons = function() {
     <div class="lista-dgs-liberadas">${cardsHtml}</div>
   `;
 };
+// ========================================================
+// 7. SISTEMA DE TRADUÇÃO INSTANTÂNEA (PT-BR <-> EN-US)
+// ========================================================
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'pt',
+    includedLanguages: 'en,pt',
+    autoDisplay: false
+  }, 'google_translate_element');
+}
+
+// Carrega o script oficial do Google Translate dinamicamente
+(function() {
+  const gtScript = document.createElement('script');
+  gtScript.type = 'text/javascript';
+  gtScript.src = '//://google.com';
+  document.body.appendChild(gtScript);
+})();
+
+window.mudarIdioma = function(lang) {
+  const btnPt = document.getElementById('btn-lang-pt');
+  const btnEn = document.getElementById('btn-lang-en');
+
+  if (btnPt && btnEn) {
+    btnPt.classList.toggle('ativo', lang === 'pt');
+    btnEn.classList.toggle('ativo', lang === 'en');
+  }
+
+  localStorage.setItem('digilab_lang', lang);
+
+  if (lang === 'pt') {
+    // Limpa o cookie do Google Translate para voltar ao português original limpo
+    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=' + window.location.hostname;
+    window.location.reload();
+    return;
+  }
+
+  // Ativa a tradução para inglês no combo oculto do Google
+  const aplicarEn = setInterval(() => {
+    const combo = document.querySelector('.goog-te-combo');
+    if (combo) {
+      combo.value = 'en';
+      combo.dispatchEvent(new Event('change'));
+      clearInterval(aplicarEn);
+    }
+  }, 200);
+};
+
+// Mantém o estado visual do botão ativo ao navegar entre páginas
+document.addEventListener("DOMContentLoaded", () => {
+  const idiomaSalvo = localStorage.getItem('digilab_lang') || 'pt';
+  const btnPt = document.getElementById('btn-lang-pt');
+  const btnEn = document.getElementById('btn-lang-en');
+  if (btnPt && btnEn) {
+    btnPt.classList.toggle('ativo', idiomaSalvo === 'pt');
+    btnEn.classList.toggle('ativo', idiomaSalvo === 'en');
+  }
+});
