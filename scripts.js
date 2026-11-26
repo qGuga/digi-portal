@@ -851,12 +851,21 @@ async function traduzirLoteGoogle(textos) {
     const url = 'https://googleapis.com' + encodeURIComponent(unificado);
     const res = await fetch(url);
     const data = await res.json();
-    const traduzidoCompleto = data.map(item => item).join('');
-    return traduzidoCompleto.split(/\s*\|\|\|\s*/);
+    
+    // Extrai corretamente cada trecho traduzido dentro de data[0]
+    let traduzidoCompleto = '';
+    if (data && data[0]) {
+      data[0].forEach(parte => {
+        if (parte[0]) traduzidoCompleto += parte[0];
+      });
+    }
+    return traduzidoCompleto ? traduzidoCompleto.split(/\s*\|\|\|\s*/) : textos;
   } catch (e) {
+    console.error("Erro na tradução:", e);
     return textos;
   }
 }
+
 
 window.mudarIdioma = async function(lang) {
   localStorage.setItem('digilab_lang', lang);
