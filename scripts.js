@@ -843,38 +843,71 @@ window.verificarDungeons = function() {
   `;
 };
 // ========================================================
-// 7. SELETOR DE IDIOMA (PT-BR <-> EN-US)
+// 7. TRADUTOR INTERNO INSTANTÂNEO (PT-BR <-> EN-US)
 // ========================================================
-window.mudarIdioma = function(lang) {
-  const urlAtual = window.location.href;
-  const isTraduzido = urlAtual.includes('translate.goog');
-
-  if (lang === 'en') {
-    if (!isTraduzido) {
-      const urlDestino = urlAtual.includes('vercel.app')
-        ? urlAtual
-        : 'https://vercel.app';
-      window.location.href = `https://google.com{encodeURIComponent(urlDestino)}`;
-    }
-  } else {
-    // Volta exatamente para a mesma página/artigo no domínio original sem sair do site
-    if (isTraduzido) {
-      const caminho = window.location.pathname + window.location.search.replace(/[?&]_x_tr_[^&]+/g, '').replace(/^&/, '?');
-      window.location.href = `https://vercel.app${caminho}`;
-    } else if (!urlAtual.includes('vercel.app')) {
-      window.location.reload();
-    }
+async function traduzirLoteGoogle(textos) {
+  const unificado = textos.join('\n|||\n');
+  try {
+    const url = 'https://googleapis.com' + encodeURIComponent(unificado);
+    const res = await fetch(url);
+    const data = await res.json();
+    const traduzidoCompleto = data.map(item => item).join('');
+    return traduzidoCompleto.split(/\s*\|\|\|\s*/);
+  } catch (e) {
+    return textos;
   }
-};
+}
 
-// Destaca automaticamente a bandeira ativa conforme o idioma atual
-document.addEventListener("DOMContentLoaded", () => {
-  const isTraduzido = window.location.href.includes('translate.goog');
+window.mudarIdioma = async function(lang) {
+  localStorage.setItem('digilab_lang', lang);
+
   const btnPt = document.getElementById('btn-lang-pt');
   const btnEn = document.getElementById('btn-lang-en');
   if (btnPt && btnEn) {
-    btnPt.classList.toggle('ativo', !isTraduzido);
-    btnEn.classList.toggle('ativo', isTraduzido);
+    btnPt.classList.toggle('ativo', lang === 'pt');
+    btnEn.classList.toggle('ativo', lang === 'en');
+  }
+
+  if (lang === 'pt') {
+    window.location.reload();
+    return;
+  }
+
+  if (btnEn) btnEn.innerHTML = '<img src="https://flagcdn.com" alt="EN"> ...';
+
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+  const nos = [];
+  let no;
+
+  while ((no = walker.nextNode())) {
+    const pai = no.parentElement;
+    if (!pai || pai.tagName === 'SCRIPT' || pai.tagName === 'STYLE' || pai.closest('.seletor-idioma')) continue;
+    const limpo = no.nodeValue.trim();
+    if (limpo.length > 1 && /[a-zA-ZÀ-ÿ]/.test(limpo)) {
+      nos.push(no);
+    }
+  }
+
+  const tamanhoLote = 25;
+  for (let i = 0; i < nos.length; i += tamanhoLote) {
+    const fatiaNos = nos.slice(i, i + tamanhoLote);
+    const textosOriginais = fatiaNos.map(n => n.nodeValue.trim());
+    const textosTraduzidos = await traduzirLoteGoogle(textosOriginais);
+
+    fatiaNos.forEach((n, idx) => {
+      if (textosTraduzidos[idx]) {
+        n.nodeValue = n.nodeValue.replace(n.nodeValue.trim(), textosTraduzidos[idx]);
+      }
+    });
+  }
+
+  if (btnEn) btnEn.innerHTML = '<img src="https://flagcdn.com" alt="EN-US"> EN';
+};
+
+window.addEventListener('load', () => {
+  if (localStorage.getItem('digilab_lang') === 'en') {
+    setTimeout(() => window.mudarIdioma('en'), 800);
   }
 });
+
 
