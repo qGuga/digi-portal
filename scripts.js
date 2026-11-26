@@ -843,43 +843,38 @@ window.verificarDungeons = function() {
   `;
 };
 // ========================================================
-// 7. SISTEMA DE TRADUÇÃO INSTANTÂNEA (PT-BR <-> EN-US)
-// ========================================================
-window.googleTranslateElementInit = function() {
-  new google.translate.TranslateElement({
-    pageLanguage: 'pt',
-    includedLanguages: 'en,pt',
-    autoDisplay: false
-  }, 'google_translate_element');
-};
-
-(function() {
-  const gtScript = document.createElement('script');
-  gtScript.type = 'text/javascript';
-  gtScript.src = 'https://google.com';
-  document.body.appendChild(gtScript);
-})();
-
-// ========================================================
 // 7. SELETOR DE IDIOMA (PT-BR <-> EN-US)
 // ========================================================
 window.mudarIdioma = function(lang) {
   const urlAtual = window.location.href;
+  const isTraduzido = urlAtual.includes('translate.goog');
 
-  // Se estiver rodando no site online (Vercel)
-  if (urlAtual.includes('vercel.app')) {
-    if (lang === 'en') {
-      // Redireciona pelo tradutor oficial do Google mantendo a página exata
-      const urlLimpa = encodeURIComponent(urlAtual);
-      window.location.href = `https://google.com{urlLimpa}`;
-    } else {
-      window.location.href = 'https://vercel.app';
+  if (lang === 'en') {
+    if (!isTraduzido) {
+      const urlDestino = urlAtual.includes('vercel.app')
+        ? urlAtual
+        : 'https://vercel.app';
+      window.location.href = `https://google.com{encodeURIComponent(urlDestino)}`;
     }
-    return;
+  } else {
+    // Volta exatamente para a mesma página/artigo no domínio original sem sair do site
+    if (isTraduzido) {
+      const caminho = window.location.pathname + window.location.search.replace(/[?&]_x_tr_[^&]+/g, '').replace(/^&/, '?');
+      window.location.href = `https://vercel.app${caminho}`;
+    } else if (!urlAtual.includes('vercel.app')) {
+      window.location.reload();
+    }
   }
-
-  // Se estiver testando localmente no VS Code (Live Server)
-  alert("A tradução automática completa funciona assim que você subir essa atualização para a Vercel (digilabhub.vercel.app)!");
 };
 
+// Destaca automaticamente a bandeira ativa conforme o idioma atual
+document.addEventListener("DOMContentLoaded", () => {
+  const isTraduzido = window.location.href.includes('translate.goog');
+  const btnPt = document.getElementById('btn-lang-pt');
+  const btnEn = document.getElementById('btn-lang-en');
+  if (btnPt && btnEn) {
+    btnPt.classList.toggle('ativo', !isTraduzido);
+    btnEn.classList.toggle('ativo', isTraduzido);
+  }
+});
 
